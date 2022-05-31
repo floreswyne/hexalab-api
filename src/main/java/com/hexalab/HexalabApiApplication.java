@@ -1,0 +1,13 @@
+package com.hexalab;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class HexalabApiApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(HexalabApiApplication.class, args);
+	}
+
+}
