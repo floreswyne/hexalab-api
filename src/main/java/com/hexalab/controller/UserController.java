@@ -32,7 +32,7 @@ public class UserController {
 	@GetMapping(value = "/{userId}")
 	public ResponseEntity<Object> findById(@PathVariable(value = "userId") UUID userId) {
 		try {
-			UserOutputDTO user = userService.findById(userId).toDTO();
+			UserOutputDTO user = userService.findById(userId).toOutputDTO();
 			return ResponseEntity.status(HttpStatus.FOUND).body(user);
 		} catch (UserNotFoundException userNotFoundException) {
 			return ResponseEntity.status(userNotFoundException.getErrorBody().getStatus())
@@ -43,7 +43,7 @@ public class UserController {
 	@GetMapping
 	public ResponseEntity<Object> findAll() {
 		try {
-			List<UserOutputDTO> users = userService.findAll().stream().map(UserEntity::toDTO).toList();
+			List<UserOutputDTO> users = userService.findAll().stream().map(UserEntity::toOutputDTO).toList();
 			return ResponseEntity.status(HttpStatus.FOUND).body(users);
 		} catch (Exception ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error while search was performed!");
@@ -54,7 +54,7 @@ public class UserController {
 	public ResponseEntity<Object> save(@RequestBody @Valid UserInputDTO dto) {
 		try {
 			UserEntity newUser = dto.toEntity();
-			UserOutputDTO createdUser = userService.save(newUser).toDTO();
+			UserOutputDTO createdUser = userService.save(newUser).toOutputDTO();
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
 		} catch (UserAlreadyExistsException userAlreadyExists) {
 			return ResponseEntity.status(userAlreadyExists.getErrorBody().getStatus())
@@ -66,7 +66,7 @@ public class UserController {
 	public ResponseEntity<Object> saveAll(@RequestBody List<@Valid UserInputDTO> dtos) {
 		try {
 			List<UserEntity> newUsers = dtos.stream().map(UserInputDTO::toEntity).toList();
-			List<UserOutputDTO> createdUsers = userService.saveAll(newUsers).stream().map(UserEntity::toDTO).toList();
+			List<UserOutputDTO> createdUsers = userService.saveAll(newUsers).stream().map(UserEntity::toOutputDTO).toList();
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdUsers);
 		} catch (UserAlreadyExistsException userAlreadyExists) {
 			return ResponseEntity.status(userAlreadyExists.getErrorBody().getStatus())

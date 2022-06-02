@@ -83,9 +83,9 @@ public class TransferService {
 			Map<TransactionTypeEnum, List<TransferEntity>> extractsLists) {
 		List<ExtractOutputDTO> extract = new ArrayList<>();
 		extract.addAll(extractsLists.get(TransactionTypeEnum.EXIT).stream()
-				.map(e -> e.toExtractDTO(TransactionTypeEnum.EXIT)).toList());
+				.map(e -> e.toOutputExtractDTO(TransactionTypeEnum.EXIT)).toList());
 		extract.addAll(extractsLists.get(TransactionTypeEnum.ENTRY).stream()
-				.map(e -> e.toExtractDTO(TransactionTypeEnum.ENTRY)).toList());
+				.map(e -> e.toOutputExtractDTO(TransactionTypeEnum.ENTRY)).toList());
 		extract.sort((e1, e2) -> e1.getTransferMadeOn().compareTo(e2.getTransferMadeOn()));
 		return extract;
 	}

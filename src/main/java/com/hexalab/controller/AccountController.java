@@ -31,7 +31,7 @@ public class AccountController {
 	@GetMapping(value = "/{accountId}")
 	public ResponseEntity<Object> findById(@PathVariable(value = "accountId") UUID accountId) {
 		try {
-			AccountOutputDTO account = accountService.findById(accountId).toDTO();
+			AccountOutputDTO account = accountService.findById(accountId).toOutputDTO();
 			return ResponseEntity.status(HttpStatus.FOUND).body(account);
 		} catch (AccountNotFoundException accountNotFound) {
 			return ResponseEntity.status(accountNotFound.getErrorBody().getStatus())
@@ -42,7 +42,7 @@ public class AccountController {
 	@GetMapping
 	public ResponseEntity<Object> findAll() {
 		try {
-			List<AccountOutputDTO> accounts = accountService.findAll().stream().map(AccountEntity::toDTO).toList();
+			List<AccountOutputDTO> accounts = accountService.findAll().stream().map(AccountEntity::toOutputDTO).toList();
 			return ResponseEntity.status(HttpStatus.FOUND).body(accounts);
 		} catch (Exception ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error while search was performed!");
@@ -53,7 +53,7 @@ public class AccountController {
 	public ResponseEntity<Object> save(@RequestBody @Valid AccountInputDTO dto) {
 		try {
 			AccountEntity newAccount = dto.toEntity();
-			AccountOutputDTO createdAccount = accountService.save(newAccount).toDTO();
+			AccountOutputDTO createdAccount = accountService.save(newAccount).toOutputDTO();
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdAccount);
 		} catch (Exception ex) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while saving the account!");
@@ -64,7 +64,7 @@ public class AccountController {
 	public ResponseEntity<Object> saveAll(@RequestBody List<@Valid AccountInputDTO> dtos) {
 		try {
 			List<AccountEntity> newAccounts = dtos.stream().map(AccountInputDTO::toEntity).toList();
-			List<AccountOutputDTO> createdAccounts = accountService.saveAll(newAccounts).stream().map(AccountEntity::toDTO)
+			List<AccountOutputDTO> createdAccounts = accountService.saveAll(newAccounts).stream().map(AccountEntity::toOutputDTO)
 					.toList();
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdAccounts);
 		} catch (Exception ex) {

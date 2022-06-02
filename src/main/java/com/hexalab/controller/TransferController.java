@@ -37,7 +37,7 @@ public class TransferController {
 	@GetMapping(value = "/{transferId}")
 	public ResponseEntity<Object> findById(@PathVariable(value = "transferId") UUID transferId) {
 		try {
-			TransferOutputDTO transfer = transferService.findById(transferId).toDTO();
+			TransferOutputDTO transfer = transferService.findById(transferId).toOutputDTO();
 			return ResponseEntity.status(HttpStatus.FOUND).body(transfer);
 		} catch (TransferNotFoundException transferNotFound) {
 			return ResponseEntity.status(transferNotFound.getErrorBody().getStatus())
@@ -48,7 +48,7 @@ public class TransferController {
 	@GetMapping
 	public ResponseEntity<Object> findAll() {
 		try {
-			List<TransferOutputDTO> transfers = transferService.findAll().stream().map(TransferEntity::toDTO).toList();
+			List<TransferOutputDTO> transfers = transferService.findAll().stream().map(TransferEntity::toOutputDTO).toList();
 			return ResponseEntity.status(HttpStatus.FOUND).body(transfers);
 		} catch (Exception ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error while search was performed!");
@@ -59,7 +59,7 @@ public class TransferController {
 	public ResponseEntity<Object> save(@RequestBody @Valid TransferInputDTO dto) {
 		try {
 			TransferEntity newTransfer = dto.toEntity(TransferTypeEnum.TRANSFER);
-			TransferOutputDTO createdTransfer = transferService.save(newTransfer).toDTO();
+			TransferOutputDTO createdTransfer = transferService.save(newTransfer).toOutputDTO();
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdTransfer);
 		} catch (AccountNotFoundException accountNotFound) {
 			return ResponseEntity.status(accountNotFound.getErrorBody().getStatus())
@@ -75,7 +75,7 @@ public class TransferController {
 		try {
 			List<TransferEntity> newTransfers = dtos.stream().map(TransferInputDTO::toEntity).toList();
 			List<TransferOutputDTO> createdTransfers = transferService.saveAll(newTransfers).stream()
-					.map(TransferEntity::toDTO).toList();
+					.map(TransferEntity::toOutputDTO).toList();
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdTransfers);
 		} catch (Exception ex) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while saving the transfers!");
@@ -86,7 +86,7 @@ public class TransferController {
 	public ResponseEntity<Object> depositAmountIntoAccount(@RequestBody @Valid TransferInputDTO dto) {
 		try {
 			TransferEntity newDeposit = dto.toEntity(TransferTypeEnum.DEPOSIT);
-			TransferOutputDTO createdDeposit = transferService.save(newDeposit).toDTO();
+			TransferOutputDTO createdDeposit = transferService.save(newDeposit).toOutputDTO();
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdDeposit);
 		} catch (AccountNotFoundException accountNotFound) {
 			return ResponseEntity.status(accountNotFound.getErrorBody().getStatus())

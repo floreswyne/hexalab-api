@@ -18,6 +18,9 @@ import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.hexalab.dto.output.ExtractOutputDTO;
+import com.hexalab.dto.output.TransferOutputDTO;
+import com.hexalab.enums.TransactionTypeEnum;
 import com.hexalab.enums.TransferTypeEnum;
 
 @Entity(name = "Transfer")
@@ -101,5 +104,13 @@ public class TransferEntity implements Serializable {
     protected void prePersist() {
         if (getCreatedAt() == null) setCreatedAt(LocalDateTime.now());
     }
+	
+	public TransferOutputDTO toOutputDTO() {
+		return new TransferOutputDTO(this);
+	}
+	
+	public ExtractOutputDTO toOutputExtractDTO(TransactionTypeEnum type) {
+		return new ExtractOutputDTO(this, type);
+	}
 
 }

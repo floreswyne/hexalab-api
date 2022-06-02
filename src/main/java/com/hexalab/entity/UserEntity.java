@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.hexalab.dto.output.UserOutputDTO;
+
 @Entity(name = "User")
 @Table(name = "TB_USER")
 public class UserEntity implements Serializable {
@@ -138,6 +140,10 @@ public class UserEntity implements Serializable {
     @PreUpdate
     protected void preUpdate() {
     	setUpdatedAt(LocalDateTime.now());
+    }
+    
+    public UserOutputDTO toOutputDTO() {
+    	return new UserOutputDTO(this);
     }
     
 }

@@ -17,6 +17,8 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.hexalab.dto.output.AccountOutputDTO;
+
 @Entity(name = "Account")
 @Table(name = "TB_ACCOUNT")
 public class AccountEntity implements Serializable {
@@ -113,6 +115,10 @@ public class AccountEntity implements Serializable {
     @PreUpdate
     protected void preUpdate() {
     	setUpdatedAt(LocalDateTime.now());
+    }
+    
+    public AccountOutputDTO toOutputDTO() {
+    	return new AccountOutputDTO(this);
     }
 
 }
