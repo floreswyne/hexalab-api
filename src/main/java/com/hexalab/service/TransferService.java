@@ -62,5 +62,13 @@ public class TransferService {
 	public List<TransferEntity> findAll() {
 		return transferRepository.findAll();
 	}
+	
+	public List<TransferEntity> findBySender(AccountEntity sender) {
+		return transferRepository.findBySender(sender);
+	}
+	
+	public List<TransferEntity> findByReceiver(AccountEntity receiver) {
+		return transferRepository.findByReceiver(receiver);
+	}
 
 }
