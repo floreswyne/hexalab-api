@@ -5,6 +5,10 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.beans.BeanUtils;
+
+import com.hexalab.entity.AccountEntity;
+
 public class AccountInputDTO {
 
 	private UUID id;
@@ -19,7 +23,7 @@ public class AccountInputDTO {
 	private BigDecimal balance;
 	
 	@NotBlank(message = "Transaction password cannot be blank!")
-	private String transctionPassword;
+	private String transactionPassword;
 
 	public UUID getId() {
 		return id;
@@ -53,12 +57,18 @@ public class AccountInputDTO {
 		this.balance = balance;
 	}
 
-	public String getTransctionPassword() {
-		return transctionPassword;
+	public String getTransactionPassword() {
+		return transactionPassword;
 	}
 
-	public void setTransctionPassword(String transctionPassword) {
-		this.transctionPassword = transctionPassword;
+	public void setTransactionPassword(String transactionPassword) {
+		this.transactionPassword = transactionPassword;
+	}
+
+	public AccountEntity toEntity() {
+		AccountEntity account = new AccountEntity();
+		BeanUtils.copyProperties(this, account);
+		return account;
 	}
 
 }
