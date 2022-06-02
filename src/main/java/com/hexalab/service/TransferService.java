@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -71,7 +72,7 @@ public class TransferService {
 				return null;
 			}
 			return e;
-		}).toList();
+		}).filter(Objects::nonNull).toList();
 
 		extractsLists.put(TransactionTypeEnum.EXIT, exits);
 		extractsLists.put(TransactionTypeEnum.ENTRY, findByReceiver(account));
@@ -82,6 +83,7 @@ public class TransferService {
 	public List<ExtractOutputDTO> convertExtractsListsToSortedList(
 			Map<TransactionTypeEnum, List<TransferEntity>> extractsLists) {
 		List<ExtractOutputDTO> extract = new ArrayList<>();
+		
 		extract.addAll(extractsLists.get(TransactionTypeEnum.EXIT).stream()
 				.map(e -> e.toOutputExtractDTO(TransactionTypeEnum.EXIT)).toList());
 		extract.addAll(extractsLists.get(TransactionTypeEnum.ENTRY).stream()
