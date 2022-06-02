@@ -1,5 +1,7 @@
 package com.hexalab.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hexalab.dto.input.UserDTO;
+import com.hexalab.dto.input.UserInputDTO;
+import com.hexalab.dto.output.UserOutputDTO;
 import com.hexalab.entity.AccountEntity;
 import com.hexalab.entity.UserEntity;
 import com.hexalab.service.UserService;
@@ -35,16 +38,24 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User cannot be found!");
 		}
 		
-		return ResponseEntity.status(HttpStatus.OK).body(userOptional.get());
+		UserOutputDTO output = new UserOutputDTO(userOptional.get());
+		
+		return ResponseEntity.status(HttpStatus.OK).body(output);
 	}
 	
 	@GetMapping
 	public ResponseEntity<Object> findAll() {
-		return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
+		List<UserOutputDTO> output = new ArrayList<>();
+		
+		userService.findAll().forEach(u -> {
+			output.add(new UserOutputDTO(u));
+		});
+		
+		return ResponseEntity.status(HttpStatus.OK).body(output);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Object> save(@RequestBody @Valid UserDTO dto) {
+	public ResponseEntity<Object> save(@RequestBody @Valid UserInputDTO dto) {
 		if (userService.existsByEmail(dto.getEmail())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("E-mail already registered!");
 		}
@@ -61,8 +72,43 @@ public class UserController {
 		BeanUtils.copyProperties(dto, user);
 		user.setAccount(new AccountEntity());
 		user.getAccount().setTransactionPassword(dto.getTransactionPassword());
+
+		UserOutputDTO output = new UserOutputDTO(userService.save(user));
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
+		return ResponseEntity.status(HttpStatus.CREATED).body(output);
+	}
+	
+	@PostMapping(value = "/users")
+	public ResponseEntity<Object> saveAll(@RequestBody List<@Valid UserInputDTO> dtos) {
+		List<UserEntity> users = new ArrayList<>();
+		
+		for (UserInputDTO dto : dtos) {
+			if (userService.existsByEmail(dto.getEmail())) {
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("E-mail already registered!");
+			}
+			
+			if (userService.existsByPhone(dto.getPhone())) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Phone already registered!");
+			}
+			
+			if (userService.existsByCpfCnpj(dto.getCpfCnpj())) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("CPF/CNPJ already registered!");
+			}
+			
+			UserEntity user = new UserEntity();
+			BeanUtils.copyProperties(dto, user);
+			user.setAccount(new AccountEntity());
+			user.getAccount().setTransactionPassword(dto.getTransactionPassword());
+			users.add(user);
+		}
+
+		List<UserOutputDTO> output = new ArrayList<>();
+		
+		userService.saveAll(users).forEach(u -> {
+			output.add(new UserOutputDTO(u));
+		});
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(output);
 	}
 	
 }
