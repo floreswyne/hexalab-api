@@ -1,17 +1,11 @@
 package com.hexalab.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexalab.dto.input.TransferInputDTO;
 import com.hexalab.dto.output.ExtractOutputDTO;
 import com.hexalab.dto.output.TransferOutputDTO;
-import com.hexalab.entity.AccountEntity;
 import com.hexalab.entity.TransferEntity;
 import com.hexalab.enums.TransactionTypeEnum;
 import com.hexalab.enums.TransferTypeEnum;
-import com.hexalab.service.AccountService;
+import com.hexalab.exceptions.AccountNotFoundException;
+import com.hexalab.exceptions.SenderAccountBalanceInsufficientException;
+import com.hexalab.exceptions.TransferNotFoundException;
 import com.hexalab.service.TransferService;
 
 @RestController
@@ -39,126 +34,80 @@ public class TransferController {
 	@Autowired
 	private TransferService transferService;
 
-	@Autowired
-	private AccountService accountService;
-
 	@GetMapping(value = "/{transferId}")
-	public ResponseEntity<Object> findById(@RequestBody UUID id) {
-		Optional<TransferEntity> transferOptional = transferService.findById(id);
-
-		if (!transferOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Transfer cannot be found!");
+	public ResponseEntity<Object> findById(@PathVariable(value = "transferId") UUID transferId) {
+		try {
+			TransferOutputDTO transfer = transferService.findById(transferId).toDTO();
+			return ResponseEntity.status(HttpStatus.FOUND).body(transfer);
+		} catch (TransferNotFoundException transferNotFound) {
+			return ResponseEntity.status(transferNotFound.getErrorBody().getStatus())
+					.body(transferNotFound.getErrorBody());
 		}
-
-		TransferOutputDTO output = new TransferOutputDTO(transferOptional.get());
-
-		return ResponseEntity.status(HttpStatus.OK).body(output);
 	}
 
 	@GetMapping
 	public ResponseEntity<Object> findAll() {
-		List<TransferOutputDTO> output = new ArrayList<>();
-
-		transferService.findAll().forEach(t -> {
-			output.add(new TransferOutputDTO(t));
-		});
-
-		return ResponseEntity.status(HttpStatus.OK).body(output);
+		try {
+			List<TransferOutputDTO> transfers = transferService.findAll().stream().map(TransferEntity::toDTO).toList();
+			return ResponseEntity.status(HttpStatus.FOUND).body(transfers);
+		} catch (Exception ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error while search was performed!");
+		}
 	}
 
 	@PostMapping
 	public ResponseEntity<Object> save(@RequestBody @Valid TransferInputDTO dto) {
-		Optional<AccountEntity> senderOptional = accountService.findById(UUID.fromString(dto.getSenderId()));
-
-		if (!senderOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sender cannot be found!");
+		try {
+			TransferEntity newTransfer = dto.toEntity(TransferTypeEnum.TRANSFER);
+			TransferOutputDTO createdTransfer = transferService.save(newTransfer).toDTO();
+			return ResponseEntity.status(HttpStatus.CREATED).body(createdTransfer);
+		} catch (AccountNotFoundException accountNotFound) {
+			return ResponseEntity.status(accountNotFound.getErrorBody().getStatus())
+					.body(accountNotFound.getErrorBody());
+		} catch (SenderAccountBalanceInsufficientException balanceInsufficient) {
+			return ResponseEntity.status(balanceInsufficient.getErrorBody().getStatus())
+					.body(balanceInsufficient.getErrorBody());
 		}
-
-		Optional<AccountEntity> receiverOptional = accountService.findById(UUID.fromString(dto.getReceiverId()));
-
-		if (!receiverOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Receiver cannot be found!");
-		}
-
-		TransferEntity transfer = new TransferEntity();
-		BeanUtils.copyProperties(dto, transfer);
-		transfer.setType(TransferTypeEnum.TRANSFER);
-		transfer.setSender(senderOptional.get());
-		transfer.setReceiver(receiverOptional.get());
-
-		TransferOutputDTO output = new TransferOutputDTO(transferService.save(transfer));
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(output);
 	}
 
 	@PostMapping(value = "/transfers")
 	public ResponseEntity<Object> saveAll(@RequestBody List<@Valid TransferInputDTO> dtos) {
-		List<TransferEntity> transfers = new ArrayList<>();
-
-		for (TransferInputDTO dto : dtos) {
-			TransferEntity transfer = new TransferEntity();
-			BeanUtils.copyProperties(dto, transfer);
-			transfers.add(transfer);
+		try {
+			List<TransferEntity> newTransfers = dtos.stream().map(TransferInputDTO::toEntity).toList();
+			List<TransferOutputDTO> createdTransfers = transferService.saveAll(newTransfers).stream()
+					.map(TransferEntity::toDTO).toList();
+			return ResponseEntity.status(HttpStatus.CREATED).body(createdTransfers);
+		} catch (Exception ex) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while saving the transfers!");
 		}
-
-		List<TransferOutputDTO> output = new ArrayList<>();
-
-		transferService.saveAll(transfers).forEach(t -> {
-			output.add(new TransferOutputDTO(t));
-		});
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(output);
 	}
 
 	@PostMapping(value = "/deposit")
-	public ResponseEntity<Object> deposit(@RequestBody @Valid TransferInputDTO dto) {
-		Optional<AccountEntity> senderOptional = accountService.findById(UUID.fromString(dto.getSenderId()));
-
-		if (!senderOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sender cannot be found!");
+	public ResponseEntity<Object> depositAmountIntoAccount(@RequestBody @Valid TransferInputDTO dto) {
+		try {
+			TransferEntity newDeposit = dto.toEntity(TransferTypeEnum.DEPOSIT);
+			TransferOutputDTO createdDeposit = transferService.save(newDeposit).toDTO();
+			return ResponseEntity.status(HttpStatus.CREATED).body(createdDeposit);
+		} catch (AccountNotFoundException accountNotFound) {
+			return ResponseEntity.status(accountNotFound.getErrorBody().getStatus())
+					.body(accountNotFound.getErrorBody());
+		} catch (SenderAccountBalanceInsufficientException balanceInsufficient) {
+			return ResponseEntity.status(balanceInsufficient.getErrorBody().getStatus())
+					.body(balanceInsufficient.getErrorBody());
 		}
-
-		Optional<AccountEntity> receiverOptional = accountService.findById(UUID.fromString(dto.getReceiverId()));
-
-		if (!receiverOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Receiver cannot be found!");
-		}
-
-		TransferEntity deposit = new TransferEntity();
-		BeanUtils.copyProperties(dto, deposit);
-		deposit.setType(TransferTypeEnum.DEPOSIT);
-		deposit.setSender(senderOptional.get());
-		deposit.setReceiver(receiverOptional.get());
-
-		TransferOutputDTO output = new TransferOutputDTO(transferService.save(deposit));
-
-		return ResponseEntity.status(HttpStatus.CREATED).body(output);
 	}
 
 	@GetMapping(value = "/extract/{accountId}")
-	public ResponseEntity<Object> getExtract(@PathVariable(value = "accountId") UUID id) {
-		Optional<AccountEntity> accountOptional = accountService.findById(id);
-
-		if (!accountOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Receiver cannot be found!");
+	public ResponseEntity<Object> getExtract(@PathVariable(value = "accountId") UUID accountId) {
+		try {
+			Map<TransactionTypeEnum, List<TransferEntity>> extractsLists = transferService
+					.getExtractsListsByAccountId(accountId);
+			List<ExtractOutputDTO> extract = transferService.convertExtractsListsToSortedList(extractsLists);
+			return ResponseEntity.status(HttpStatus.FOUND).body(extract);
+		} catch (AccountNotFoundException accountNotFound) {
+			return ResponseEntity.status(accountNotFound.getErrorBody().getStatus())
+					.body(accountNotFound.getErrorBody());
 		}
-
-		Set<ExtractOutputDTO> extractTemp = new HashSet<>();
-
-		extractTemp.addAll(transferService.findByReceiver(accountOptional.get()).stream()
-				.map(t -> new ExtractOutputDTO(t, TransactionTypeEnum.ENTRY)).collect(Collectors.toList()));
-
-		extractTemp.addAll(transferService.findBySender(accountOptional.get()).stream().map(t -> {
-			if (t.getType().equals(TransferTypeEnum.DEPOSIT)) {
-				return null;
-			}
-			return new ExtractOutputDTO(t, TransactionTypeEnum.EXIT);
-		}).filter(t -> t != null).collect(Collectors.toList()));
-
-		List<ExtractOutputDTO> output = new ArrayList<>(extractTemp);
-		Collections.sort(output, (e1, e2) -> e1.getTransferMadeOn().compareTo(e2.getTransferMadeOn()));
-
-		return ResponseEntity.status(HttpStatus.OK).body(output);
 	}
 
 }
