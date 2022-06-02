@@ -18,16 +18,13 @@ import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.hexalab.enums.TransferTypeEnum;
+
 @Entity(name = "Transfer")
 @Table(name = "TB_TRANSFER")
 public class TransferEntity implements Serializable {
 
 	private static final long serialVersionUID = 5048903213512791844L;
-	
-	enum Type {
-		TRANSFER,
-		DEPOSIT
-	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +32,7 @@ public class TransferEntity implements Serializable {
 	private UUID id;
 	
 	@Column(nullable = false)
-	private Type type;
+	private TransferTypeEnum type;
 	
 	@Column(nullable = false)
 	private BigDecimal value;
@@ -60,11 +57,11 @@ public class TransferEntity implements Serializable {
 		this.id = id;
 	}
 
-	public Type getType() {
+	public TransferTypeEnum getType() {
 		return type;
 	}
 
-	public void setType(Type type) {
+	public void setType(TransferTypeEnum type) {
 		this.type = type;
 	}
 
