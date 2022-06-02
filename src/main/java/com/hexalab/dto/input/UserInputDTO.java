@@ -1,10 +1,14 @@
 package com.hexalab.dto.input;
 
+import java.util.UUID;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-public class UserDTO {
+public class UserInputDTO {
+	
+	private UUID id;
 
 	@NotBlank(message = "Name cannot be blank!")
 	private String name;
@@ -26,7 +30,15 @@ public class UserDTO {
 	
 	@NotBlank(message = "Account cannot be null!")
 	private String transactionPassword;
-	
+
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
