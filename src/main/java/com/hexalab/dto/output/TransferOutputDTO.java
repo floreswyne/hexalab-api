@@ -21,6 +21,10 @@ public class TransferOutputDTO {
 	public TransferOutputDTO (TransferEntity transfer) {
 		convertEntityToDTO(transfer);
 	}
+	
+	public TransferOutputDTO (TransferEntity transfer, boolean canShowBalance) {
+		convertEntityToDTO(transfer, canShowBalance);
+	}
 
 	public UUID getId() {
 		return id;
@@ -68,6 +72,14 @@ public class TransferOutputDTO {
 		setValue(transfer.getValue());
 		setSender(new AccountOutputDTO(transfer.getSender()));
 		setReceiver(new AccountOutputDTO(transfer.getReceiver()));
+	}
+	
+	private void convertEntityToDTO(TransferEntity transfer, boolean canShowBalance) {
+		setId(transfer.getId());
+		setType(transfer.getType());
+		setValue(transfer.getValue());
+		setSender(new AccountOutputDTO(transfer.getSender(), canShowBalance));
+		setReceiver(new AccountOutputDTO(transfer.getReceiver(), canShowBalance));
 	}
 
 }

@@ -18,6 +18,13 @@ public class AccountOutputDTO {
 	public AccountOutputDTO (AccountEntity account) {
 		convertEntityToDTO(account);
 	}
+	
+	public AccountOutputDTO (AccountEntity account, boolean canShowBalance) {
+		convertEntityToDTO(account);
+		if (!canShowBalance) { 
+			balance = null;
+		}
+	}
 
 	public UUID getId() {
 		return id;

@@ -109,6 +109,10 @@ public class TransferEntity implements Serializable {
 		return new TransferOutputDTO(this);
 	}
 	
+	public TransferOutputDTO toOutputDTO(boolean canShowBalance) {
+		return new TransferOutputDTO(this, canShowBalance);
+	}
+	
 	public ExtractOutputDTO toOutputExtractDTO(TransactionTypeEnum type) {
 		return new ExtractOutputDTO(this, type);
 	}
