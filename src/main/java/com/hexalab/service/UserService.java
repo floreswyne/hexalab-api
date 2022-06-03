@@ -33,7 +33,8 @@ public class UserService {
 	}
 
 	public UserEntity findById(UUID id) {
-		return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id.toString()));
+		return userRepository.findById(id)
+				.orElseThrow(() -> new UserNotFoundException("User with ID: " + id.toString() + " cannot be found!"));
 	}
 
 	public List<UserEntity> findAll() {
@@ -57,18 +58,18 @@ public class UserService {
 		user.getAccount().setAgency("000001");
 		user.getAccount().setBalance(new BigDecimal("0.0"));
 	}
-	
+
 	private void prepareUserToSave(UserEntity user) {
 		if (existsByEmail(user.getEmail())) {
-			throw new UserAlreadyExistsException("E-mail", user.getEmail());
+			throw new UserAlreadyExistsException("This e-mail: " + user.getEmail() + " is already in use");
 		}
 
 		if (existsByPhone(user.getPhone())) {
-			throw new UserAlreadyExistsException("Phone", user.getPhone());
+			throw new UserAlreadyExistsException("This phone: " + user.getPhone() + " is already in use");
 		}
 
 		if (existsByCpfCnpj(user.getCpfCnpj())) {
-			throw new UserAlreadyExistsException("CPF/CNPJ", user.getCpfCnpj());
+			throw new UserAlreadyExistsException("The CPF/CNPJ: " + user.getCpfCnpj() + " is already in use");
 		}
 
 		generateAccountBeforeSaving(user);

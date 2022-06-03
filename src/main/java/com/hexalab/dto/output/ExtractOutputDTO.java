@@ -11,15 +11,15 @@ import com.hexalab.enums.TransactionTypeEnum;
 public class ExtractOutputDTO {
 
 	private UUID id;
-	
+
 	private TransactionTypeEnum transactionType;
-	
+
 	private ExtractTypeEnum extractType;
-	
+
 	private BigDecimal value;
-	
+
 	private LocalDateTime transactionMadeOn;
-	
+
 	public ExtractOutputDTO(TransactionEntity extract, ExtractTypeEnum extractTypeEnum) {
 		convertEntityToDTO(extract);
 		this.setExtractType(extractTypeEnum);
@@ -71,5 +71,5 @@ public class ExtractOutputDTO {
 		setValue(extract.getValue());
 		setTransactionMadeOn(extract.getCreatedAt());
 	}
-	
+
 }

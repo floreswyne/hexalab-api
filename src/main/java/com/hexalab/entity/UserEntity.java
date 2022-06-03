@@ -31,22 +31,22 @@ public class UserEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_id")
 	private UUID id;
-	
+
 	@Column(length = 70, nullable = false)
 	private String name;
-	
+
 	@Column(length = 50, nullable = false, unique = true)
 	private String email;
-	
+
 	@Column(length = 20, nullable = false, unique = true)
 	private String phone;
-	
+
 	@Column(length = 18, nullable = false, unique = true)
 	private String cpfCnpj;
-	
+
 	@Column(nullable = false)
 	private String password;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "account_id", referencedColumnName = "account_id")
 	private AccountEntity account;
@@ -132,18 +132,20 @@ public class UserEntity implements Serializable {
 	}
 
 	@PrePersist
-    protected void prePersist() {
-        if (getCreatedAt() == null) setCreatedAt(LocalDateTime.now());
-        if (getUpdatedAt() == null) setUpdatedAt(LocalDateTime.now());
-    }
+	protected void prePersist() {
+		if (getCreatedAt() == null)
+			setCreatedAt(LocalDateTime.now());
+		if (getUpdatedAt() == null)
+			setUpdatedAt(LocalDateTime.now());
+	}
 
-    @PreUpdate
-    protected void preUpdate() {
-    	setUpdatedAt(LocalDateTime.now());
-    }
-    
-    public UserOutputDTO toOutputDTO() {
-    	return new UserOutputDTO(this);
-    }
-    
+	@PreUpdate
+	protected void preUpdate() {
+		setUpdatedAt(LocalDateTime.now());
+	}
+
+	public UserOutputDTO toOutputDTO() {
+		return new UserOutputDTO(this);
+	}
+
 }

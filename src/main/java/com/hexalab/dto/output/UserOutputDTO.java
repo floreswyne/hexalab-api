@@ -9,10 +9,10 @@ public class UserOutputDTO {
 	private UUID id;
 
 	private String name;
-	
+
 	private AccountOutputDTO account;
-	
-	public UserOutputDTO (UserEntity user) {
+
+	public UserOutputDTO(UserEntity user) {
 		convertEntityToDTO(user);
 	}
 
@@ -45,5 +45,5 @@ public class UserOutputDTO {
 		setName(user.getName());
 		setAccount(new AccountOutputDTO(user.getAccount()));
 	}
-	
+
 }

@@ -21,7 +21,7 @@ public class AccountInputDTO {
 
 	@NotBlank(message = "Balance cannot be blank!")
 	private BigDecimal balance;
-	
+
 	@NotBlank(message = "Transaction password cannot be blank!")
 	private String transactionPassword;
 

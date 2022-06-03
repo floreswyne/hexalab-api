@@ -24,21 +24,21 @@ import com.hexalab.dto.output.AccountOutputDTO;
 public class AccountEntity implements Serializable {
 
 	private static final long serialVersionUID = -5183503657125607116L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "account_id")
 	private UUID id;
-	
+
 	@Column(nullable = false)
 	private String agency;
-	
+
 	@Column(nullable = false)
 	private String accountNumber;
-	
+
 	@Column(nullable = false)
 	private BigDecimal balance;
-	
+
 	@Column(nullable = false)
 	private String transactionPassword;
 
@@ -107,18 +107,20 @@ public class AccountEntity implements Serializable {
 	}
 
 	@PrePersist
-    protected void prePersist() {
-        if (getCreatedAt() == null) setCreatedAt(LocalDateTime.now());
-        if (getUpdatedAt() == null) setUpdatedAt(LocalDateTime.now());
-    }
+	protected void prePersist() {
+		if (getCreatedAt() == null)
+			setCreatedAt(LocalDateTime.now());
+		if (getUpdatedAt() == null)
+			setUpdatedAt(LocalDateTime.now());
+	}
 
-    @PreUpdate
-    protected void preUpdate() {
-    	setUpdatedAt(LocalDateTime.now());
-    }
-    
-    public AccountOutputDTO toOutputDTO() {
-    	return new AccountOutputDTO(this);
-    }
+	@PreUpdate
+	protected void preUpdate() {
+		setUpdatedAt(LocalDateTime.now());
+	}
+
+	public AccountOutputDTO toOutputDTO() {
+		return new AccountOutputDTO(this);
+	}
 
 }

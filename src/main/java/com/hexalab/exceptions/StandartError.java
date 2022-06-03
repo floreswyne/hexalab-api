@@ -8,17 +8,17 @@ public class StandartError implements Serializable {
 	private static final long serialVersionUID = 8442332379226188951L;
 
 	private LocalDateTime timestamp;
-	
+
 	private Integer status;
-	
+
 	private String error;
-	
+
 	private String message;
-	
+
 	private String path;
-	
+
 	public StandartError() {
-		
+
 	}
 
 	public LocalDateTime getTimestamp() {

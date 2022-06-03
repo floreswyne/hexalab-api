@@ -15,7 +15,7 @@ import com.hexalab.entity.TransactionEntity;
 import com.hexalab.enums.TransactionTypeEnum;
 
 public class TransactionInputDTO {
-	
+
 	private UUID id;
 
 	@DecimalMin(value = "0.0", inclusive = true, message = "Value cannot be less than 0!")
@@ -60,27 +60,27 @@ public class TransactionInputDTO {
 	public void setReceiverId(String receiverId) {
 		this.receiverId = receiverId;
 	}
-	
+
 	public TransactionEntity toEntity() {
 		TransactionEntity transaction = new TransactionEntity();
 		BeanUtils.copyProperties(this, transaction);
-		
+
 		AccountEntity sender = new AccountEntity();
 		sender.setId(UUID.fromString(this.getSenderId()));
 		transaction.setSender(sender);
-		
+
 		AccountEntity receiver = new AccountEntity();
 		receiver.setId(UUID.fromString(this.getReceiverId()));
 		transaction.setReceiver(receiver);
-		
+
 		return transaction;
 	}
-	
+
 	public TransactionEntity toEntity(TransactionTypeEnum type) {
 		TransactionEntity transaction = this.toEntity();
 
 		transaction.setType(type);
-		
+
 		return transaction;
 	}
 

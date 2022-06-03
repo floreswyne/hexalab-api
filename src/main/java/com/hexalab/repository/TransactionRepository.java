@@ -11,6 +11,7 @@ import com.hexalab.entity.TransactionEntity;
 public interface TransactionRepository extends JpaRepository<TransactionEntity, UUID> {
 
 	List<TransactionEntity> findBySender(AccountEntity sender);
+
 	List<TransactionEntity> findByReceiver(AccountEntity receiver);
-	
+
 }

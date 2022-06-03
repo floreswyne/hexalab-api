@@ -8,20 +8,20 @@ import com.hexalab.entity.AccountEntity;
 public class AccountOutputDTO {
 
 	private UUID id;
-	
+
 	private String agency;
-	
+
 	private String accountNumber;
-	
+
 	private BigDecimal balance;
-	
-	public AccountOutputDTO (AccountEntity account) {
+
+	public AccountOutputDTO(AccountEntity account) {
 		convertEntityToDTO(account);
 	}
-	
-	public AccountOutputDTO (AccountEntity account, boolean canShowBalance) {
+
+	public AccountOutputDTO(AccountEntity account, boolean canShowBalance) {
 		convertEntityToDTO(account);
-		if (!canShowBalance) { 
+		if (!canShowBalance) {
 			balance = null;
 		}
 	}
@@ -57,7 +57,7 @@ public class AccountOutputDTO {
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
-	
+
 	private void convertEntityToDTO(AccountEntity account) {
 		setId(account.getId());
 		setAgency(account.getAgency());

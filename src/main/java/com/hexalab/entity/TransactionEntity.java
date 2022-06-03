@@ -28,22 +28,22 @@ import com.hexalab.enums.TransactionTypeEnum;
 public class TransactionEntity implements Serializable {
 
 	private static final long serialVersionUID = 5048903213512791844L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "transaction_id")
 	private UUID id;
-	
+
 	@Column(nullable = false)
 	private TransactionTypeEnum type;
-	
+
 	@Column(nullable = false)
 	private BigDecimal value;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(updatable = false)
 	private AccountEntity sender;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(updatable = false)
 	private AccountEntity receiver;
@@ -101,18 +101,19 @@ public class TransactionEntity implements Serializable {
 	}
 
 	@PrePersist
-    protected void prePersist() {
-        if (getCreatedAt() == null) setCreatedAt(LocalDateTime.now());
-    }
-	
+	protected void prePersist() {
+		if (getCreatedAt() == null)
+			setCreatedAt(LocalDateTime.now());
+	}
+
 	public TransactionOutputDTO toOutputDTO() {
 		return new TransactionOutputDTO(this);
 	}
-	
+
 	public TransactionOutputDTO toOutputDTO(boolean canShowBalance) {
 		return new TransactionOutputDTO(this, canShowBalance);
 	}
-	
+
 	public ExtractOutputDTO toOutputExtractDTO(ExtractTypeEnum type) {
 		return new ExtractOutputDTO(this, type);
 	}

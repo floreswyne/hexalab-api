@@ -17,12 +17,12 @@ public class TransactionOutputDTO {
 	private AccountOutputDTO sender;
 
 	private AccountOutputDTO receiver;
-	
-	public TransactionOutputDTO (TransactionEntity transaction) {
+
+	public TransactionOutputDTO(TransactionEntity transaction) {
 		convertEntityToDTO(transaction);
 	}
-	
-	public TransactionOutputDTO (TransactionEntity transaction, boolean canShowBalance) {
+
+	public TransactionOutputDTO(TransactionEntity transaction, boolean canShowBalance) {
 		convertEntityToDTO(transaction, canShowBalance);
 	}
 
@@ -65,7 +65,7 @@ public class TransactionOutputDTO {
 	public void setReceiver(AccountOutputDTO receiver) {
 		this.receiver = receiver;
 	}
-	
+
 	private void convertEntityToDTO(TransactionEntity transaction) {
 		setId(transaction.getId());
 		setType(transaction.getType());
@@ -73,7 +73,7 @@ public class TransactionOutputDTO {
 		setSender(new AccountOutputDTO(transaction.getSender()));
 		setReceiver(new AccountOutputDTO(transaction.getReceiver()));
 	}
-	
+
 	private void convertEntityToDTO(TransactionEntity transaction, boolean canShowBalance) {
 		setId(transaction.getId());
 		setType(transaction.getType());

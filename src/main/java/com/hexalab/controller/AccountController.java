@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexalab.dto.input.AccountInputDTO;
 import com.hexalab.dto.output.AccountOutputDTO;
 import com.hexalab.entity.AccountEntity;
-import com.hexalab.exceptions.AccountNotFoundException;
 import com.hexalab.service.AccountService;
 
 @RestController
@@ -30,46 +29,29 @@ public class AccountController {
 
 	@GetMapping(value = "/{accountId}")
 	public ResponseEntity<Object> findById(@PathVariable(value = "accountId") UUID accountId) {
-		try {
-			AccountOutputDTO account = accountService.findById(accountId).toOutputDTO();
-			return ResponseEntity.status(HttpStatus.FOUND).body(account);
-		} catch (AccountNotFoundException accountNotFound) {
-			return ResponseEntity.status(accountNotFound.getErrorBody().getStatus())
-					.body(accountNotFound.getErrorBody());
-		}
+		AccountOutputDTO account = accountService.findById(accountId).toOutputDTO();
+		return ResponseEntity.status(HttpStatus.FOUND).body(account);
 	}
 
 	@GetMapping
 	public ResponseEntity<Object> findAll() {
-		try {
-			List<AccountOutputDTO> accounts = accountService.findAll().stream().map(AccountEntity::toOutputDTO).toList();
-			return ResponseEntity.status(HttpStatus.FOUND).body(accounts);
-		} catch (Exception ex) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error while search was performed!");
-		}
+		List<AccountOutputDTO> accounts = accountService.findAll().stream().map(AccountEntity::toOutputDTO).toList();
+		return ResponseEntity.status(HttpStatus.FOUND).body(accounts);
 	}
 
 	@PostMapping
 	public ResponseEntity<Object> save(@RequestBody @Valid AccountInputDTO dto) {
-		try {
-			AccountEntity newAccount = dto.toEntity();
-			AccountOutputDTO createdAccount = accountService.save(newAccount).toOutputDTO();
-			return ResponseEntity.status(HttpStatus.CREATED).body(createdAccount);
-		} catch (Exception ex) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while saving the account!");
-		}
+		AccountEntity newAccount = dto.toEntity();
+		AccountOutputDTO createdAccount = accountService.save(newAccount).toOutputDTO();
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdAccount);
 	}
 
 	@PostMapping(value = "/accounts")
 	public ResponseEntity<Object> saveAll(@RequestBody List<@Valid AccountInputDTO> dtos) {
-		try {
-			List<AccountEntity> newAccounts = dtos.stream().map(AccountInputDTO::toEntity).toList();
-			List<AccountOutputDTO> createdAccounts = accountService.saveAll(newAccounts).stream().map(AccountEntity::toOutputDTO)
-					.toList();
-			return ResponseEntity.status(HttpStatus.CREATED).body(createdAccounts);
-		} catch (Exception ex) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error while saving the accounts!");
-		}
+		List<AccountEntity> newAccounts = dtos.stream().map(AccountInputDTO::toEntity).toList();
+		List<AccountOutputDTO> createdAccounts = accountService.saveAll(newAccounts).stream()
+				.map(AccountEntity::toOutputDTO).toList();
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdAccounts);
 	}
 
 }

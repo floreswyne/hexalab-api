@@ -46,7 +46,8 @@ public class TransactionService {
 	}
 
 	public TransactionEntity findById(UUID id) {
-		return transactionRepository.findById(id).orElseThrow(() -> new TransactionNotFoundException(id.toString()));
+		return transactionRepository.findById(id).orElseThrow(
+				() -> new TransactionNotFoundException("Transaction with ID: " + id.toString() + " cannot be found!"));
 	}
 
 	public List<TransactionEntity> findAll() {
@@ -62,8 +63,8 @@ public class TransactionService {
 	}
 
 	public Map<ExtractTypeEnum, List<TransactionEntity>> getExtractsListsByAccountId(UUID accountId) {
-		AccountEntity account = accountRepository.findById(accountId)
-				.orElseThrow(() -> new AccountNotFoundException(accountId.toString()));
+		AccountEntity account = accountRepository.findById(accountId).orElseThrow(
+				() -> new AccountNotFoundException("Account with ID: " + accountId.toString() + " cannot be found!"));
 
 		EnumMap<ExtractTypeEnum, List<TransactionEntity>> extractsLists = new EnumMap<>(ExtractTypeEnum.class);
 
@@ -83,7 +84,7 @@ public class TransactionService {
 	public List<ExtractOutputDTO> convertExtractsListsToSortedList(
 			Map<ExtractTypeEnum, List<TransactionEntity>> extractsLists) {
 		List<ExtractOutputDTO> extract = new ArrayList<>();
-		
+
 		extract.addAll(extractsLists.get(ExtractTypeEnum.EXIT).stream()
 				.map(e -> e.toOutputExtractDTO(ExtractTypeEnum.EXIT)).toList());
 		extract.addAll(extractsLists.get(ExtractTypeEnum.ENTRY).stream()
@@ -91,15 +92,15 @@ public class TransactionService {
 		extract.sort((e1, e2) -> e1.getTransactionMadeOn().compareTo(e2.getTransactionMadeOn()));
 		return extract;
 	}
-	
+
 	private void prepareTransactionToSave(TransactionEntity transaction) {
 		UUID senderId = transaction.getSender().getId();
-		AccountEntity sender = accountRepository.findById(senderId)
-				.orElseThrow(() -> new AccountNotFoundException(senderId.toString()));
+		AccountEntity sender = accountRepository.findById(senderId).orElseThrow(
+				() -> new AccountNotFoundException("Account with ID: " + senderId.toString() + " cannot be found!"));
 
 		UUID receiverId = transaction.getReceiver().getId();
-		AccountEntity receiver = accountRepository.findById(receiverId)
-				.orElseThrow(() -> new AccountNotFoundException(receiverId.toString()));
+		AccountEntity receiver = accountRepository.findById(receiverId).orElseThrow(
+				() -> new AccountNotFoundException("Account with ID: " + receiverId.toString() + " cannot be found!"));
 
 		if (transaction.getType().equals(TransactionTypeEnum.TRANSFER)) {
 			BigDecimal differenceValueSender = sender.getBalance().subtract(transaction.getValue());

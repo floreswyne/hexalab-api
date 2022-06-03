@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hexalab.dto.input.UserInputDTO;
 import com.hexalab.dto.output.UserOutputDTO;
 import com.hexalab.entity.UserEntity;
-import com.hexalab.exceptions.UserAlreadyExistsException;
-import com.hexalab.exceptions.UserNotFoundException;
 import com.hexalab.service.UserService;
 
 @RestController
@@ -31,47 +29,28 @@ public class UserController {
 
 	@GetMapping(value = "/{userId}")
 	public ResponseEntity<Object> findById(@PathVariable(value = "userId") UUID userId) {
-		try {
-			UserOutputDTO user = userService.findById(userId).toOutputDTO();
-			return ResponseEntity.status(HttpStatus.FOUND).body(user);
-		} catch (UserNotFoundException userNotFoundException) {
-			return ResponseEntity.status(userNotFoundException.getErrorBody().getStatus())
-					.body(userNotFoundException.getErrorBody());
-		}
+		UserOutputDTO user = userService.findById(userId).toOutputDTO();
+		return ResponseEntity.status(HttpStatus.FOUND).body(user);
 	}
 
 	@GetMapping
 	public ResponseEntity<Object> findAll() {
-		try {
-			List<UserOutputDTO> users = userService.findAll().stream().map(UserEntity::toOutputDTO).toList();
-			return ResponseEntity.status(HttpStatus.FOUND).body(users);
-		} catch (Exception ex) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error while search was performed!");
-		}
+		List<UserOutputDTO> users = userService.findAll().stream().map(UserEntity::toOutputDTO).toList();
+		return ResponseEntity.status(HttpStatus.FOUND).body(users);
 	}
 
 	@PostMapping
 	public ResponseEntity<Object> save(@RequestBody @Valid UserInputDTO dto) {
-		try {
-			UserEntity newUser = dto.toEntity();
-			UserOutputDTO createdUser = userService.save(newUser).toOutputDTO();
-			return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
-		} catch (UserAlreadyExistsException userAlreadyExists) {
-			return ResponseEntity.status(userAlreadyExists.getErrorBody().getStatus())
-					.body(userAlreadyExists.getErrorBody());
-		}
+		UserEntity newUser = dto.toEntity();
+		UserOutputDTO createdUser = userService.save(newUser).toOutputDTO();
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
 	}
 
 	@PostMapping(value = "/users")
 	public ResponseEntity<Object> saveAll(@RequestBody List<@Valid UserInputDTO> dtos) {
-		try {
-			List<UserEntity> newUsers = dtos.stream().map(UserInputDTO::toEntity).toList();
-			List<UserOutputDTO> createdUsers = userService.saveAll(newUsers).stream().map(UserEntity::toOutputDTO).toList();
-			return ResponseEntity.status(HttpStatus.CREATED).body(createdUsers);
-		} catch (UserAlreadyExistsException userAlreadyExists) {
-			return ResponseEntity.status(userAlreadyExists.getErrorBody().getStatus())
-					.body(userAlreadyExists.getErrorBody());
-		}
+		List<UserEntity> newUsers = dtos.stream().map(UserInputDTO::toEntity).toList();
+		List<UserOutputDTO> createdUsers = userService.saveAll(newUsers).stream().map(UserEntity::toOutputDTO).toList();
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdUsers);
 	}
 
 }

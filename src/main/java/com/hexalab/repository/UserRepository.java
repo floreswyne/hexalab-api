@@ -9,7 +9,9 @@ import com.hexalab.entity.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, UUID> {
 
 	boolean existsByEmail(String email);
+
 	boolean existsByPhone(String phone);
+
 	boolean existsByCpfCnpj(String cpfCnpj);
-	
+
 }

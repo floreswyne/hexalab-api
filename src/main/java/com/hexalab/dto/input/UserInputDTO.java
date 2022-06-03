@@ -94,8 +94,9 @@ public class UserInputDTO {
 
 	public UserEntity toEntity() {
 		UserEntity user = new UserEntity();
-		BeanUtils.copyProperties(this, user);
+		BeanUtils.copyProperties(this, user, "password");
 
+		user.setPassword(this.getPassword());
 		user.setAccount(new AccountEntity());
 		user.getAccount().setTransactionPassword(this.getTransactionPassword());
 
