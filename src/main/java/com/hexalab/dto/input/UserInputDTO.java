@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.hexalab.entity.AccountEntity;
 import com.hexalab.entity.UserEntity;
@@ -93,10 +94,12 @@ public class UserInputDTO {
 	}
 
 	public UserEntity toEntity() {
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		
 		UserEntity user = new UserEntity();
 		BeanUtils.copyProperties(this, user, "password");
 
-		user.setPassword(this.getPassword());
+		user.setPassword(bCryptPasswordEncoder.encode(this.getPassword()));
 		user.setAccount(new AccountEntity());
 		user.getAccount().setTransactionPassword(this.getTransactionPassword());
 

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -64,6 +65,18 @@ public class ResourceExceptionHandler {
 		error.setTimestamp(LocalDateTime.now());
 		error.setStatus(HttpStatus.CONFLICT.value());
 		error.setError("There is already a user in an unique field!");
+		error.setMessage(e.getMessage());
+		error.setPath(request.getRequestURI());
+		return ResponseEntity.status(error.getStatus()).body(error);
+	}
+
+	@ExceptionHandler
+	public ResponseEntity<StandartError> userLoginCredentialsInvalid(BadCredentialsException e,
+			HttpServletRequest request) {
+		StandartError error = new StandartError();
+		error.setTimestamp(LocalDateTime.now());
+		error.setStatus(HttpStatus.UNAUTHORIZED.value());
+		error.setError("User credentials are invalid!");
 		error.setMessage(e.getMessage());
 		error.setPath(request.getRequestURI());
 		return ResponseEntity.status(error.getStatus()).body(error);

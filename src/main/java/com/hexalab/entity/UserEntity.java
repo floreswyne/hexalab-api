@@ -44,7 +44,7 @@ public class UserEntity implements Serializable {
 	@Column(length = 18, nullable = false, unique = true)
 	private String cpfCnpj;
 
-	@Column(nullable = false)
+	@Column(length = 100, nullable = false)
 	private String password;
 
 	@OneToOne(cascade = CascadeType.ALL)
