@@ -11,10 +11,10 @@ import javax.validation.constraints.NotBlank;
 import org.springframework.beans.BeanUtils;
 
 import com.hexalab.entity.AccountEntity;
-import com.hexalab.entity.TransferEntity;
-import com.hexalab.enums.TransferTypeEnum;
+import com.hexalab.entity.TransactionEntity;
+import com.hexalab.enums.TransactionTypeEnum;
 
-public class TransferInputDTO {
+public class TransactionInputDTO {
 	
 	private UUID id;
 
@@ -61,27 +61,27 @@ public class TransferInputDTO {
 		this.receiverId = receiverId;
 	}
 	
-	public TransferEntity toEntity() {
-		TransferEntity transfer = new TransferEntity();
-		BeanUtils.copyProperties(this, transfer);
+	public TransactionEntity toEntity() {
+		TransactionEntity transaction = new TransactionEntity();
+		BeanUtils.copyProperties(this, transaction);
 		
 		AccountEntity sender = new AccountEntity();
 		sender.setId(UUID.fromString(this.getSenderId()));
-		transfer.setSender(sender);
+		transaction.setSender(sender);
 		
 		AccountEntity receiver = new AccountEntity();
 		receiver.setId(UUID.fromString(this.getReceiverId()));
-		transfer.setReceiver(receiver);
+		transaction.setReceiver(receiver);
 		
-		return transfer;
+		return transaction;
 	}
 	
-	public TransferEntity toEntity(TransferTypeEnum type) {
-		TransferEntity transfer = this.toEntity();
+	public TransactionEntity toEntity(TransactionTypeEnum type) {
+		TransactionEntity transaction = this.toEntity();
 
-		transfer.setType(type);
+		transaction.setType(type);
 		
-		return transfer;
+		return transaction;
 	}
 
 }

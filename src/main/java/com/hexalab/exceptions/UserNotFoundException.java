@@ -14,7 +14,7 @@ public class UserNotFoundException extends RuntimeException {
 		errorBody = new StandartError();
 		errorBody.setTimestamp(LocalDateTime.now());
 		errorBody.setStatus(HttpStatus.NOT_FOUND.value());
-		errorBody.setError("Transfer not found!");
+		errorBody.setError("User not found!");
 		errorBody.setMessage("User with ID: " + userId + " cannot be found!");
 		errorBody.setPath("test");
 	}

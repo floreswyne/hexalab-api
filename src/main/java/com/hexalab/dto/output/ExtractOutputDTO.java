@@ -4,25 +4,25 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.hexalab.entity.TransferEntity;
+import com.hexalab.entity.TransactionEntity;
+import com.hexalab.enums.ExtractTypeEnum;
 import com.hexalab.enums.TransactionTypeEnum;
-import com.hexalab.enums.TransferTypeEnum;
 
 public class ExtractOutputDTO {
 
 	private UUID id;
 	
-	private TransferTypeEnum transferType;
-	
 	private TransactionTypeEnum transactionType;
+	
+	private ExtractTypeEnum extractType;
 	
 	private BigDecimal value;
 	
-	private LocalDateTime transferMadeOn;
+	private LocalDateTime transactionMadeOn;
 	
-	public ExtractOutputDTO(TransferEntity extract, TransactionTypeEnum transactionType) {
+	public ExtractOutputDTO(TransactionEntity extract, ExtractTypeEnum extractTypeEnum) {
 		convertEntityToDTO(extract);
-		this.setTransactionType(transactionType);
+		this.setExtractType(extractTypeEnum);
 	}
 
 	public UUID getId() {
@@ -33,20 +33,20 @@ public class ExtractOutputDTO {
 		this.id = id;
 	}
 
-	public TransferTypeEnum getTransferType() {
-		return transferType;
-	}
-
-	public void setTransferType(TransferTypeEnum transferType) {
-		this.transferType = transferType;
-	}
-
 	public TransactionTypeEnum getTransactionType() {
 		return transactionType;
 	}
 
 	public void setTransactionType(TransactionTypeEnum transactionType) {
 		this.transactionType = transactionType;
+	}
+
+	public ExtractTypeEnum getExtractType() {
+		return extractType;
+	}
+
+	public void setExtractType(ExtractTypeEnum extractType) {
+		this.extractType = extractType;
 	}
 
 	public BigDecimal getValue() {
@@ -57,19 +57,19 @@ public class ExtractOutputDTO {
 		this.value = value;
 	}
 
-	public LocalDateTime getTransferMadeOn() {
-		return transferMadeOn;
+	public LocalDateTime getTransactionMadeOn() {
+		return transactionMadeOn;
 	}
 
-	public void setTransferMadeOn(LocalDateTime transferMadeOn) {
-		this.transferMadeOn = transferMadeOn;
+	public void setTransactionMadeOn(LocalDateTime transactionMadeOn) {
+		this.transactionMadeOn = transactionMadeOn;
 	}
 
-	private void convertEntityToDTO(TransferEntity extract) {
+	private void convertEntityToDTO(TransactionEntity extract) {
 		setId(extract.getId());
-		setTransferType(extract.getType());
+		setTransactionType(extract.getType());
 		setValue(extract.getValue());
-		setTransferMadeOn(extract.getCreatedAt());
+		setTransactionMadeOn(extract.getCreatedAt());
 	}
 	
 }

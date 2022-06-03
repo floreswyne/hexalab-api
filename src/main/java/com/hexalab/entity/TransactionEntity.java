@@ -19,23 +19,23 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.hexalab.dto.output.ExtractOutputDTO;
-import com.hexalab.dto.output.TransferOutputDTO;
+import com.hexalab.dto.output.TransactionOutputDTO;
+import com.hexalab.enums.ExtractTypeEnum;
 import com.hexalab.enums.TransactionTypeEnum;
-import com.hexalab.enums.TransferTypeEnum;
 
-@Entity(name = "Transfer")
-@Table(name = "TB_TRANSFER")
-public class TransferEntity implements Serializable {
+@Entity(name = "Transaction")
+@Table(name = "TB_TRANSACTION")
+public class TransactionEntity implements Serializable {
 
 	private static final long serialVersionUID = 5048903213512791844L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "transfer_id")
+	@Column(name = "transaction_id")
 	private UUID id;
 	
 	@Column(nullable = false)
-	private TransferTypeEnum type;
+	private TransactionTypeEnum type;
 	
 	@Column(nullable = false)
 	private BigDecimal value;
@@ -60,11 +60,11 @@ public class TransferEntity implements Serializable {
 		this.id = id;
 	}
 
-	public TransferTypeEnum getType() {
+	public TransactionTypeEnum getType() {
 		return type;
 	}
 
-	public void setType(TransferTypeEnum type) {
+	public void setType(TransactionTypeEnum type) {
 		this.type = type;
 	}
 
@@ -105,15 +105,15 @@ public class TransferEntity implements Serializable {
         if (getCreatedAt() == null) setCreatedAt(LocalDateTime.now());
     }
 	
-	public TransferOutputDTO toOutputDTO() {
-		return new TransferOutputDTO(this);
+	public TransactionOutputDTO toOutputDTO() {
+		return new TransactionOutputDTO(this);
 	}
 	
-	public TransferOutputDTO toOutputDTO(boolean canShowBalance) {
-		return new TransferOutputDTO(this, canShowBalance);
+	public TransactionOutputDTO toOutputDTO(boolean canShowBalance) {
+		return new TransactionOutputDTO(this, canShowBalance);
 	}
 	
-	public ExtractOutputDTO toOutputExtractDTO(TransactionTypeEnum type) {
+	public ExtractOutputDTO toOutputExtractDTO(ExtractTypeEnum type) {
 		return new ExtractOutputDTO(this, type);
 	}
 
