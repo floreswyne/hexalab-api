@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -20,7 +21,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import com.hexalab.dto.output.AccountOutputDTO;
 
 @Entity(name = "Account")
-@Table(name = "TB_ACCOUNT")
+@Table(name = "TB_ACCOUNT", uniqueConstraints = {
+		@UniqueConstraint(name = "UniqueAgencyAndAccountNumber", columnNames = { "agency", "accountNumber" }) })
 public class AccountEntity implements Serializable {
 
 	private static final long serialVersionUID = -5183503657125607116L;

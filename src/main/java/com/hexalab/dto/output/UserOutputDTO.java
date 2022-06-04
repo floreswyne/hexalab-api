@@ -16,6 +16,10 @@ public class UserOutputDTO {
 		convertEntityToDTO(user);
 	}
 
+	public UserOutputDTO(UserEntity user, boolean canShowBalance) {
+		convertEntityToDTO(user, canShowBalance);
+	}
+
 	public UUID getId() {
 		return id;
 	}
@@ -44,6 +48,12 @@ public class UserOutputDTO {
 		setId(user.getId());
 		setName(user.getName());
 		setAccount(new AccountOutputDTO(user.getAccount()));
+	}
+
+	private void convertEntityToDTO(UserEntity user, boolean canShowBalance) {
+		setId(user.getId());
+		setName(user.getName());
+		setAccount(new AccountOutputDTO(user.getAccount(), canShowBalance));
 	}
 
 }

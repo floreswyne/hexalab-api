@@ -27,6 +27,15 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@GetMapping(value = "/{agency}/{accountNumber}")
+	public ResponseEntity<Object> findByAccountNumberAndAgency(
+			@PathVariable(value = "agency") String agency,
+			@PathVariable(value = "accountNumber") String accountNumber) {
+		boolean canShowBalance = false;
+		UserOutputDTO user = userService.findByAccountNumberAndAgency(accountNumber, agency).toOutputDTO(canShowBalance);
+		return ResponseEntity.status(HttpStatus.FOUND).body(user);
+	}
+
 	@GetMapping(value = "/{userId}")
 	public ResponseEntity<Object> findById(@PathVariable(value = "userId") UUID userId) {
 		UserOutputDTO user = userService.findById(userId).toOutputDTO();

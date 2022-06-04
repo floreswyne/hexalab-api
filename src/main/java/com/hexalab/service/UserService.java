@@ -9,9 +9,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hexalab.entity.AccountEntity;
 import com.hexalab.entity.UserEntity;
 import com.hexalab.exceptions.UserAlreadyExistsException;
 import com.hexalab.exceptions.UserNotFoundException;
+import com.hexalab.repository.AccountRepository;
 import com.hexalab.repository.UserRepository;
 
 @Service
@@ -19,6 +21,9 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private AccountRepository accountRepository;
 
 	@Transactional
 	public UserEntity save(UserEntity user) {
@@ -35,6 +40,12 @@ public class UserService {
 	public UserEntity findById(UUID id) {
 		return userRepository.findById(id)
 				.orElseThrow(() -> new UserNotFoundException("User with ID: " + id.toString() + " cannot be found!"));
+	}
+
+	public UserEntity findByAccountNumberAndAgency(String accountNumber, String agency) {
+		return userRepository.findByAccountNumberAndAgency(accountNumber, agency)
+				.orElseThrow(() -> new UserNotFoundException(
+						"User with Account number: " + accountNumber + " and Agency: " + agency + " cannot be found!"));
 	}
 
 	public List<UserEntity> findAll() {
@@ -54,9 +65,31 @@ public class UserService {
 	}
 
 	private void generateAccountBeforeSaving(UserEntity user) {
-		user.getAccount().setAccountNumber("0001");
-		user.getAccount().setAgency("000001");
+		AccountEntity lastAccount = accountRepository.findFirstByOrderByIdDesc().orElse(new AccountEntity());
+		
+		if (lastAccount.getId() == null) {
+			lastAccount.setAccountNumber("0000");
+			lastAccount.setAgency("000001");
+		}
+		
+		Integer lastAccountNumber = Integer.valueOf(lastAccount.getAccountNumber());
+		Integer lastAgency = Integer.valueOf(lastAccount.getAgency());
+		
+		if (lastAccountNumber >= 9999) {
+			lastAgency++;
+			lastAccountNumber = 1;
+		} else {
+			lastAccountNumber++;
+		}
+		
+		String newAccountNumber = String.format("%04d", lastAccountNumber);
+		String newAgency = String.format("%06d", lastAgency);
+		
+		user.getAccount().setAccountNumber(newAccountNumber);
+		user.getAccount().setAgency(newAgency);
 		user.getAccount().setBalance(new BigDecimal("0.0"));
+		
+		accountRepository.save(user.getAccount());
 	}
 
 	private void prepareUserToSave(UserEntity user) {

@@ -148,4 +148,8 @@ public class UserEntity implements Serializable {
 		return new UserOutputDTO(this);
 	}
 
+	public UserOutputDTO toOutputDTO(boolean canShowBalace) {
+		return new UserOutputDTO(this, canShowBalace);
+	}
+
 }
