@@ -7,11 +7,15 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.hexalab.controller.feign.UserAuthenticationServiceClient;
 import com.hexalab.entity.AccountEntity;
 import com.hexalab.entity.UserEntity;
 import com.hexalab.exceptions.UserAlreadyExistsException;
+import com.hexalab.exceptions.UserDataNotAuthenticatedException;
 import com.hexalab.exceptions.UserNotFoundException;
 import com.hexalab.repository.AccountRepository;
 import com.hexalab.repository.UserRepository;
@@ -24,6 +28,9 @@ public class UserService {
 
 	@Autowired
 	private AccountRepository accountRepository;
+
+	@Autowired
+	private UserAuthenticationServiceClient userAuthenticationServiceClient;
 
 	@Transactional
 	public UserEntity save(UserEntity user) {
@@ -66,30 +73,46 @@ public class UserService {
 
 	private void generateAccountBeforeSaving(UserEntity user) {
 		AccountEntity lastAccount = accountRepository.findFirstByOrderByIdDesc().orElse(new AccountEntity());
-		
+
 		if (lastAccount.getId() == null) {
 			lastAccount.setAccountNumber("0000");
 			lastAccount.setAgency("000001");
 		}
-		
+
 		Integer lastAccountNumber = Integer.valueOf(lastAccount.getAccountNumber());
 		Integer lastAgency = Integer.valueOf(lastAccount.getAgency());
-		
+
 		if (lastAccountNumber >= 9999) {
 			lastAgency++;
 			lastAccountNumber = 1;
 		} else {
 			lastAccountNumber++;
 		}
-		
+
 		String newAccountNumber = String.format("%04d", lastAccountNumber);
 		String newAgency = String.format("%06d", lastAgency);
-		
+
 		user.getAccount().setAccountNumber(newAccountNumber);
 		user.getAccount().setAgency(newAgency);
 		user.getAccount().setBalance(new BigDecimal("0.0"));
-		
+
 		accountRepository.save(user.getAccount());
+	}
+
+	private void authenticateUserEmail(String email) {
+		ResponseEntity<Object> response = userAuthenticationServiceClient.authenticateUserEmail();
+
+		if (!response.getStatusCode().equals(HttpStatus.OK)) {
+			throw new UserDataNotAuthenticatedException("User's email: " + email + " isn't valid!");
+		}
+	}
+
+	private void authenticateUserPhone(String phone) {
+		ResponseEntity<Object> response = userAuthenticationServiceClient.authenticateUserPhone();
+
+		if (!response.getStatusCode().equals(HttpStatus.OK)) {
+			throw new UserDataNotAuthenticatedException("User's phone: " + phone + " isn't valid!");
+		}
 	}
 
 	private void prepareUserToSave(UserEntity user) {
@@ -105,6 +128,8 @@ public class UserService {
 			throw new UserAlreadyExistsException("The CPF/CNPJ: " + user.getCpfCnpj() + " is already in use");
 		}
 
+		authenticateUserEmail(user.getEmail());
+		authenticateUserPhone(user.getPhone());
 		generateAccountBeforeSaving(user);
 	}
 

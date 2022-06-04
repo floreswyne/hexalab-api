@@ -15,10 +15,10 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
 	boolean existsByPhone(String phone);
 
 	boolean existsByCpfCnpj(String cpfCnpj);
-	
+
 	Optional<UserEntity> findByEmail(String email);
 
 	@Query("SELECT u FROM User u WHERE u.account.accountNumber = ?1 AND u.account.agency = ?2")
 	Optional<UserEntity> findByAccountNumberAndAgency(String accountNumber, String agency);
-	
+
 }

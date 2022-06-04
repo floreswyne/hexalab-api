@@ -82,4 +82,28 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(error.getStatus()).body(error);
 	}
 
+	@ExceptionHandler
+	public ResponseEntity<StandartError> userDataNotAuthenticated(UserDataNotAuthenticatedException e,
+			HttpServletRequest request) {
+		StandartError error = new StandartError();
+		error.setTimestamp(LocalDateTime.now());
+		error.setStatus(HttpStatus.UNAUTHORIZED.value());
+		error.setError("User data was not authenticated!");
+		error.setMessage(e.getMessage());
+		error.setPath(request.getRequestURI());
+		return ResponseEntity.status(error.getStatus()).body(error);
+	}
+
+	@ExceptionHandler
+	public ResponseEntity<StandartError> transferNotAuthorized(TransferNotAuthorizedException e,
+			HttpServletRequest request) {
+		StandartError error = new StandartError();
+		error.setTimestamp(LocalDateTime.now());
+		error.setStatus(HttpStatus.UNAUTHORIZED.value());
+		error.setError("Transfer not authorized!");
+		error.setMessage(e.getMessage());
+		error.setPath(request.getRequestURI());
+		return ResponseEntity.status(error.getStatus()).body(error);
+	}
+
 }

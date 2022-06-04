@@ -95,7 +95,7 @@ public class UserInputDTO {
 
 	public UserEntity toEntity() {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		
+
 		UserEntity user = new UserEntity();
 		BeanUtils.copyProperties(this, user, "password");
 

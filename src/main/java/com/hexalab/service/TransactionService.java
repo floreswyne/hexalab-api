@@ -11,8 +11,11 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.hexalab.controller.feign.TransactionAuthorizationServiceClient;
 import com.hexalab.dto.output.ExtractOutputDTO;
 import com.hexalab.entity.AccountEntity;
 import com.hexalab.entity.TransactionEntity;
@@ -21,6 +24,7 @@ import com.hexalab.enums.TransactionTypeEnum;
 import com.hexalab.exceptions.AccountNotFoundException;
 import com.hexalab.exceptions.SenderAccountBalanceInsufficientException;
 import com.hexalab.exceptions.TransactionNotFoundException;
+import com.hexalab.exceptions.TransferNotAuthorizedException;
 import com.hexalab.repository.AccountRepository;
 import com.hexalab.repository.TransactionRepository;
 
@@ -32,6 +36,9 @@ public class TransactionService {
 
 	@Autowired
 	private AccountRepository accountRepository;
+
+	@Autowired
+	private TransactionAuthorizationServiceClient transactionAuthorizationServiceClient;
 
 	@Transactional
 	public TransactionEntity save(TransactionEntity transaction) {
@@ -103,6 +110,8 @@ public class TransactionService {
 				() -> new AccountNotFoundException("Account with ID: " + receiverId.toString() + " cannot be found!"));
 
 		if (transaction.getType().equals(TransactionTypeEnum.TRANSFER)) {
+			authorizeTransfer();
+
 			BigDecimal differenceValueSender = sender.getBalance().subtract(transaction.getValue());
 
 			if (differenceValueSender.signum() < 0) {
@@ -118,6 +127,14 @@ public class TransactionService {
 
 		transaction.setSender(sender);
 		transaction.setReceiver(receiver);
+	}
+
+	private void authorizeTransfer() {
+		ResponseEntity<Object> response = transactionAuthorizationServiceClient.authorizeTransfer();
+
+		if (!response.getStatusCode().equals(HttpStatus.OK)) {
+			throw new TransferNotAuthorizedException("Transfer was not authorized!");
+		}
 	}
 
 }

@@ -41,14 +41,14 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity, JwtTokenFilter jwtTokenFilter) throws Exception {
 
 		httpSecurity.csrf().disable();
-		
+
 		httpSecurity.authorizeRequests()
 					.antMatchers(HttpMethod.POST, "/api/user").permitAll()
 					.antMatchers(HttpMethod.POST, "/api/login").permitAll()
 					.anyRequest().authenticated();
-		
+
 		httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		
+
 		httpSecurity.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return httpSecurity.build();

@@ -1,15 +1,15 @@
 package com.hexalab.dto.output;
 
 public class AuthOutputDTO {
-	
+
 	private String email;
-	
-    private String accessToken;
-    
-    public AuthOutputDTO(String email, String accessToken) {
-    	this.email = email;
-        this.accessToken = accessToken;
-    }
+
+	private String accessToken;
+
+	public AuthOutputDTO(String email, String accessToken) {
+		this.email = email;
+		this.accessToken = accessToken;
+	}
 
 	public String getEmail() {
 		return email;

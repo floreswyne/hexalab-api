@@ -28,11 +28,11 @@ public class UserController {
 	private UserService userService;
 
 	@GetMapping(value = "/{agency}/{accountNumber}")
-	public ResponseEntity<Object> findByAccountNumberAndAgency(
-			@PathVariable(value = "agency") String agency,
+	public ResponseEntity<Object> findByAccountNumberAndAgency(@PathVariable(value = "agency") String agency,
 			@PathVariable(value = "accountNumber") String accountNumber) {
 		boolean canShowBalance = false;
-		UserOutputDTO user = userService.findByAccountNumberAndAgency(accountNumber, agency).toOutputDTO(canShowBalance);
+		UserOutputDTO user = userService.findByAccountNumberAndAgency(accountNumber, agency)
+				.toOutputDTO(canShowBalance);
 		return ResponseEntity.status(HttpStatus.FOUND).body(user);
 	}
 

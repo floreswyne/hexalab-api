@@ -33,22 +33,20 @@ public class JwtTokenUtil {
 		try {
 			Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
 			return true;
-		} catch (ExpiredJwtException|IllegalArgumentException|MalformedJwtException|UnsupportedJwtException|SignatureException ex) {
+		} catch (ExpiredJwtException | IllegalArgumentException | MalformedJwtException | UnsupportedJwtException
+				| SignatureException ex) {
 			ex.printStackTrace();
 		}
 
 		return false;
 	}
-	
+
 	public String getSubject(String token) {
-        return parseClaims(token).getSubject();
-    }
-     
-    private Claims parseClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token)
-                .getBody();
-    }
+		return parseClaims(token).getSubject();
+	}
+
+	private Claims parseClaims(String token) {
+		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+	}
 
 }

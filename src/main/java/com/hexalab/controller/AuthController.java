@@ -33,7 +33,7 @@ public class AuthController {
 	public ResponseEntity<Object> login(@RequestBody @Valid AuthInputDTO dto) {
 		Authentication authentication = authManager
 				.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
-		
+
 		CustomUserEntity customUser = (CustomUserEntity) authentication.getPrincipal();
 		UserEntity user = customUser.getUser();
 		String accessToken = jwtTokenUtil.generateAccessToken(user);
