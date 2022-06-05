@@ -1,0 +1,2122 @@
+{
+	"info": {
+		"_postman_id": "d68b1a40-f8ea-4e7b-9688-c31221e5961a",
+		"name": "Hexalab API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21302821"
+	},
+	"item": [
+		{
+			"name": "Standart Flow",
+			"item": [
+				{
+					"name": "Save User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody)\r",
+									"pm.collectionVariables.set(\"senderAccountId\", response.account.accountId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Josoé Algusto da Silva\",\r\n    \"email\": \"josoealgustodasilva@gmail.com.br\",\r\n    \"phone\": \"15997979797\",\r\n    \"cpfCnpj\": \"123.456.789-00\",\r\n    \"password\": \"123456\",\r\n    \"transactionPassword\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/user",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Save User Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Josoé Algusto da Silva\",\r\n    \"email\": \"josoealgustodasilva@gmail.com.br\",\r\n    \"phone\": \"15997979797\",\r\n    \"cpfCnpj\": \"123.456.789-00\",\r\n    \"password\": \"123456\",\r\n    \"transactionPassword\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/user",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:00:32 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"userId\": \"650ce0c7-12fd-476d-ba2f-43ed5a42f8e5\",\n    \"name\": \"Josoé Algusto da Silva\",\n    \"account\": {\n        \"accountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0001\",\n        \"balance\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Do Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody)\r",
+									"pm.collectionVariables.set(\"accessToken\", response[\"accessToken\"]);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{userEmail}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Do Login Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"josoealgustodasilva@gmail.com.br\",\r\n    \"password\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:02:19 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"email\": \"josoealgustodasilva@gmail.com.br\",\n    \"accessToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTBjZTBjNy0xMmZkLTQ3NmQtYmEyZi00M2VkNWE0MmY4ZTUsam9zb2VhbGd1c3RvZGFzaWx2YUBnbWFpbC5jb20uYnIiLCJpc3MiOiJDb2RlSmF2YSIsImlhdCI6MTY1NDM4NzMzOSwiZXhwIjoxNjU0NDczNzM5fQ.UxT5AhmvM471nnI3055kR7dUujplE-moumGbK76mNZxtHb3QnGuQAnnbgwioEGS8VoRAjV_VToVPTk7yj_EIZg\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Save Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"name\": \"Juliana Bernado Porcelinni\",\r\n        \"email\": \"julianabernadoporcelinni@gmail.com.br\",\r\n        \"phone\": \"15998989898\",\r\n        \"cpfCnpj\": \"234.567.891-00\",\r\n        \"password\": \"123456\",\r\n        \"transactionPassword\": \"123456\"\r\n    },\r\n    {\r\n        \"name\": \"Jaqueline Camargo Desidera\",\r\n        \"email\": \"jaquelinecamargodesidera@gmail.com.br\",\r\n        \"phone\": \"15996969696\",\r\n        \"cpfCnpj\": \"345.678.912-00\",\r\n        \"password\": \"123456\",\r\n        \"transactionPassword\": \"123456\"\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/user/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Save Users Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"name\": \"Juliana Bernado Porcelinni\",\r\n        \"email\": \"julianabernadoporcelinni@gmail.com.br\",\r\n        \"phone\": \"15998989898\",\r\n        \"cpfCnpj\": \"234.567.891-00\",\r\n        \"password\": \"123456\",\r\n        \"transactionPassword\": \"123456\"\r\n    },\r\n    {\r\n        \"name\": \"Jaqueline Camargo Desidera\",\r\n        \"email\": \"jaquelinecamargodesidera@gmail.com.br\",\r\n        \"phone\": \"15996969696\",\r\n        \"cpfCnpj\": \"345.678.912-00\",\r\n        \"password\": \"123456\",\r\n        \"transactionPassword\": \"123456\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/user/users",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:05:04 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"userId\": \"b549e561-8e5b-401d-a542-ccb8ffb2a91b\",\n        \"name\": \"Juliana Bernado Porcelinni\",\n        \"account\": {\n            \"accountId\": \"e79c3294-28fe-4064-bbd0-79b68b347cc1\",\n            \"agency\": \"000001\",\n            \"accountNumber\": \"0002\",\n            \"balance\": 0\n        }\n    },\n    {\n        \"userId\": \"d7ecab35-8086-44f7-a62c-76143b1153ef\",\n        \"name\": \"Jaqueline Camargo Desidera\",\n        \"account\": {\n            \"accountId\": \"d58e3a00-ae9b-40c6-bc96-4cd16d9102f2\",\n            \"agency\": \"000001\",\n            \"accountNumber\": \"0003\",\n            \"balance\": 0\n        }\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Find Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody)\r",
+									"pm.collectionVariables.set(\"receiverAccountNumber\", response[1].account.accountNumber);\r",
+									"pm.collectionVariables.set(\"receiverAgency\", response[1].account.agency);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/user",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Find Users Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/user",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"status": "Found",
+							"code": 302,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:05:31 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"userId\": \"650ce0c7-12fd-476d-ba2f-43ed5a42f8e5\",\n        \"name\": \"Josoé Algusto da Silva\",\n        \"account\": {\n            \"accountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\n            \"agency\": \"000001\",\n            \"accountNumber\": \"0001\",\n            \"balance\": 0\n        }\n    },\n    {\n        \"userId\": \"b549e561-8e5b-401d-a542-ccb8ffb2a91b\",\n        \"name\": \"Juliana Bernado Porcelinni\",\n        \"account\": {\n            \"accountId\": \"e79c3294-28fe-4064-bbd0-79b68b347cc1\",\n            \"agency\": \"000001\",\n            \"accountNumber\": \"0002\",\n            \"balance\": 0\n        }\n    },\n    {\n        \"userId\": \"d7ecab35-8086-44f7-a62c-76143b1153ef\",\n        \"name\": \"Jaqueline Camargo Desidera\",\n        \"account\": {\n            \"accountId\": \"d58e3a00-ae9b-40c6-bc96-4cd16d9102f2\",\n            \"agency\": \"000001\",\n            \"accountNumber\": \"0003\",\n            \"balance\": 0\n        }\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Save Deposit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"value\": 250.00,\r\n    \"senderAccountId\": \"{{senderAccountId}}\",\r\n    \"receiverAccountId\": \"{{senderAccountId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/transaction/deposit",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transaction",
+								"deposit"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Save Deposit Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"value\": 250.00,\r\n    \"senderAccountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\r\n    \"receiverAccountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/transaction/deposit",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"transaction",
+										"deposit"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:07:10 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"transactionId\": \"7f4c39d4-0e8b-4159-ae05-058eac02a8dc\",\n    \"type\": \"DEPOSIT\",\n    \"value\": 250,\n    \"sender\": {\n        \"accountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0001\",\n        \"balance\": null\n    },\n    \"receiver\": {\n        \"accountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0001\",\n        \"balance\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Find Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody)\r",
+									"pm.collectionVariables.set(\"receiverAccountId\", response.account.accountId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/user/:receiverAgency/:receiverAccountNumber",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								":receiverAgency",
+								":receiverAccountNumber"
+							],
+							"variable": [
+								{
+									"key": "receiverAgency",
+									"value": "{{receiverAgency}}"
+								},
+								{
+									"key": "receiverAccountNumber",
+									"value": "{{receiverAccountNumber}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Find Account Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/user/000001/0002",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"000001",
+										"0002"
+									]
+								}
+							},
+							"status": "Found",
+							"code": 302,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:07:38 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"userId\": \"b549e561-8e5b-401d-a542-ccb8ffb2a91b\",\n    \"name\": \"Juliana Bernado Porcelinni\",\n    \"account\": {\n        \"accountId\": \"e79c3294-28fe-4064-bbd0-79b68b347cc1\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0002\",\n        \"balance\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Save Transfer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"value\": 50.00,\r\n    \"transactionPassword\": \"{{senderTransactionPassword}}\",\r\n    \"senderAccountId\": \"{{senderAccountId}}\",\r\n    \"receiverAccountId\": \"{{receiverAccountId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/transaction",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transaction"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Save Transfer Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"value\": 50.00,\r\n    \"senderAccountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\r\n    \"receiverAccountId\": \"e79c3294-28fe-4064-bbd0-79b68b347cc1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/transaction",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"transaction"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:08:49 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"transactionId\": \"7555dd16-0bdc-4689-946c-b66bd26062db\",\n    \"type\": \"TRANSFER\",\n    \"value\": 50,\n    \"sender\": {\n        \"accountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0001\",\n        \"balance\": null\n    },\n    \"receiver\": {\n        \"accountId\": \"e79c3294-28fe-4064-bbd0-79b68b347cc1\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0002\",\n        \"balance\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Find Extract by Account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/transaction/extract/:senderAccountId",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transaction",
+								"extract",
+								":senderAccountId"
+							],
+							"variable": [
+								{
+									"key": "senderAccountId",
+									"value": "{{senderAccountId}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Find Extract by Account Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/transaction/extract/d26158f3-2f58-427f-9a45-7ec4bac3249b",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"transaction",
+										"extract",
+										"d26158f3-2f58-427f-9a45-7ec4bac3249b"
+									]
+								}
+							},
+							"status": "Found",
+							"code": 302,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:09:19 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"extractId\": \"7f4c39d4-0e8b-4159-ae05-058eac02a8dc\",\n        \"transactionType\": \"DEPOSIT\",\n        \"extractType\": \"ENTRY\",\n        \"value\": 250,\n        \"transactionMadeOn\": \"2022-06-04T21:07:10.887673\"\n    },\n    {\n        \"extractId\": \"7555dd16-0bdc-4689-946c-b66bd26062db\",\n        \"transactionType\": \"TRANSFER\",\n        \"extractType\": \"EXIT\",\n        \"value\": 50,\n        \"transactionMadeOn\": \"2022-06-04T21:08:49.543677\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Save User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Josoé Algusto da Silva\",\r\n    \"email\": \"josoealgustodasilva@gmail.com.br\",\r\n    \"phone\": \"15997979797\",\r\n    \"cpfCnpj\": \"123.456.789-00\",\r\n    \"password\": \"123456\",\r\n    \"transactionPassword\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/user",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Save User Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Josoé Algusto da Silva\",\r\n    \"email\": \"josoealgustodasilva@gmail.com.br\",\r\n    \"phone\": \"15997979797\",\r\n    \"cpfCnpj\": \"123.456.789-00\",\r\n    \"password\": \"123456\",\r\n    \"transactionPassword\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/user",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:00:32 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"userId\": \"650ce0c7-12fd-476d-ba2f-43ed5a42f8e5\",\n    \"name\": \"Josoé Algusto da Silva\",\n    \"account\": {\n        \"accountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0001\",\n        \"balance\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Save Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"name\": \"Juliana Bernado Porcelinni\",\r\n        \"email\": \"julianabernadoporcelinni@gmail.com.br\",\r\n        \"phone\": \"15998989898\",\r\n        \"cpfCnpj\": \"234.567.891-00\",\r\n        \"password\": \"123456\",\r\n        \"transactionPassword\": \"123456\"\r\n    },\r\n    {\r\n        \"name\": \"Jaqueline Camargo Desidera\",\r\n        \"email\": \"jaquelinecamargodesidera@gmail.com.br\",\r\n        \"phone\": \"15996969696\",\r\n        \"cpfCnpj\": \"345.678.912-00\",\r\n        \"password\": \"123456\",\r\n        \"transactionPassword\": \"123456\"\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/user/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Save Users Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"name\": \"Juliana Bernado Porcelinni\",\r\n        \"email\": \"julianabernadoporcelinni@gmail.com.br\",\r\n        \"phone\": \"15998989898\",\r\n        \"cpfCnpj\": \"234.567.891-00\",\r\n        \"password\": \"123456\",\r\n        \"transactionPassword\": \"123456\"\r\n    },\r\n    {\r\n        \"name\": \"Jaqueline Camargo Desidera\",\r\n        \"email\": \"jaquelinecamargodesidera@gmail.com.br\",\r\n        \"phone\": \"15996969696\",\r\n        \"cpfCnpj\": \"345.678.912-00\",\r\n        \"password\": \"123456\",\r\n        \"transactionPassword\": \"123456\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/user/users",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:05:04 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"userId\": \"b549e561-8e5b-401d-a542-ccb8ffb2a91b\",\n        \"name\": \"Juliana Bernado Porcelinni\",\n        \"account\": {\n            \"accountId\": \"e79c3294-28fe-4064-bbd0-79b68b347cc1\",\n            \"agency\": \"000001\",\n            \"accountNumber\": \"0002\",\n            \"balance\": 0\n        }\n    },\n    {\n        \"userId\": \"d7ecab35-8086-44f7-a62c-76143b1153ef\",\n        \"name\": \"Jaqueline Camargo Desidera\",\n        \"account\": {\n            \"accountId\": \"d58e3a00-ae9b-40c6-bc96-4cd16d9102f2\",\n            \"agency\": \"000001\",\n            \"accountNumber\": \"0003\",\n            \"balance\": 0\n        }\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Find User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/user/60a30548-0354-4a43-be05-c98ec55a5259",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"60a30548-0354-4a43-be05-c98ec55a5259"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Find User Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/user/60a30548-0354-4a43-be05-c98ec55a5259",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"60a30548-0354-4a43-be05-c98ec55a5259"
+									]
+								}
+							},
+							"status": "Found",
+							"code": 302,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 17:52:15 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"userId\": \"60a30548-0354-4a43-be05-c98ec55a5259\",\n    \"name\": \"Josoé Algusto da Silva\",\n    \"account\": {\n        \"accountId\": \"4389348f-7c0b-4010-9cf1-e7fe2d3a2358\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0001\",\n        \"balance\": 450\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Find Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MGEzMDU0OC0wMzU0LTRhNDMtYmUwNS1jOThlYzU1YTUyNTksam9zb2VhbGd1c3RvZGFzaWx2YUBnbWFpbC5jb20uYnIiLCJpc3MiOiJDb2RlSmF2YSIsImlhdCI6MTY1NDQ0OTU4MCwiZXhwIjoxNjU0NTM1OTgwfQ.oqpjiHVkVf4l0dPscsHK0PiLdcRk5sWhoGEcbHr3eGlBKEhtTgmP0QNDgz2HSwi0A8wvXDKmwc0yrgWIExiYyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/user",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Find Users Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/user",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"status": "Found",
+							"code": 302,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:05:31 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"userId\": \"650ce0c7-12fd-476d-ba2f-43ed5a42f8e5\",\n        \"name\": \"Josoé Algusto da Silva\",\n        \"account\": {\n            \"accountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\n            \"agency\": \"000001\",\n            \"accountNumber\": \"0001\",\n            \"balance\": 0\n        }\n    },\n    {\n        \"userId\": \"b549e561-8e5b-401d-a542-ccb8ffb2a91b\",\n        \"name\": \"Juliana Bernado Porcelinni\",\n        \"account\": {\n            \"accountId\": \"e79c3294-28fe-4064-bbd0-79b68b347cc1\",\n            \"agency\": \"000001\",\n            \"accountNumber\": \"0002\",\n            \"balance\": 0\n        }\n    },\n    {\n        \"userId\": \"d7ecab35-8086-44f7-a62c-76143b1153ef\",\n        \"name\": \"Jaqueline Camargo Desidera\",\n        \"account\": {\n            \"accountId\": \"d58e3a00-ae9b-40c6-bc96-4cd16d9102f2\",\n            \"agency\": \"000001\",\n            \"accountNumber\": \"0003\",\n            \"balance\": 0\n        }\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "Save Deposit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MGEzMDU0OC0wMzU0LTRhNDMtYmUwNS1jOThlYzU1YTUyNTksam9zb2VhbGd1c3RvZGFzaWx2YUBnbWFpbC5jb20uYnIiLCJpc3MiOiJDb2RlSmF2YSIsImlhdCI6MTY1NDQ0OTU4MCwiZXhwIjoxNjU0NTM1OTgwfQ.oqpjiHVkVf4l0dPscsHK0PiLdcRk5sWhoGEcbHr3eGlBKEhtTgmP0QNDgz2HSwi0A8wvXDKmwc0yrgWIExiYyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"value\": 250.00,\r\n    \"senderAccountId\": \"4389348f-7c0b-4010-9cf1-e7fe2d3a2358\",\r\n    \"receiverAccountId\": \"4389348f-7c0b-4010-9cf1-e7fe2d3a2358\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/transaction/deposit",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transaction",
+								"deposit"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Save Deposit Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"value\": 250.00,\r\n    \"senderAccountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\r\n    \"receiverAccountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/transaction/deposit",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"transaction",
+										"deposit"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:07:10 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"transactionId\": \"7f4c39d4-0e8b-4159-ae05-058eac02a8dc\",\n    \"type\": \"DEPOSIT\",\n    \"value\": 250,\n    \"sender\": {\n        \"accountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0001\",\n        \"balance\": null\n    },\n    \"receiver\": {\n        \"accountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0001\",\n        \"balance\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Save Transfer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MGEzMDU0OC0wMzU0LTRhNDMtYmUwNS1jOThlYzU1YTUyNTksam9zb2VhbGd1c3RvZGFzaWx2YUBnbWFpbC5jb20uYnIiLCJpc3MiOiJDb2RlSmF2YSIsImlhdCI6MTY1NDQ0OTU4MCwiZXhwIjoxNjU0NTM1OTgwfQ.oqpjiHVkVf4l0dPscsHK0PiLdcRk5sWhoGEcbHr3eGlBKEhtTgmP0QNDgz2HSwi0A8wvXDKmwc0yrgWIExiYyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"value\": 50.00,\r\n    \"transactionPassword\": \"123456\",\r\n    \"senderAccountId\": \"4389348f-7c0b-4010-9cf1-e7fe2d3a2358\",\r\n    \"receiverAccountId\": \"fff3ee05-8d4f-439d-a559-13b0d8624b66\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/transaction",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transaction"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Save Transfer Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"value\": 50.00,\r\n    \"senderAccountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\r\n    \"receiverAccountId\": \"e79c3294-28fe-4064-bbd0-79b68b347cc1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/transaction",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"transaction"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:08:49 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"transactionId\": \"7555dd16-0bdc-4689-946c-b66bd26062db\",\n    \"type\": \"TRANSFER\",\n    \"value\": 50,\n    \"sender\": {\n        \"accountId\": \"d26158f3-2f58-427f-9a45-7ec4bac3249b\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0001\",\n        \"balance\": null\n    },\n    \"receiver\": {\n        \"accountId\": \"e79c3294-28fe-4064-bbd0-79b68b347cc1\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0002\",\n        \"balance\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Find Extract by Account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MGEzMDU0OC0wMzU0LTRhNDMtYmUwNS1jOThlYzU1YTUyNTksam9zb2VhbGd1c3RvZGFzaWx2YUBnbWFpbC5jb20uYnIiLCJpc3MiOiJDb2RlSmF2YSIsImlhdCI6MTY1NDQ0OTU4MCwiZXhwIjoxNjU0NTM1OTgwfQ.oqpjiHVkVf4l0dPscsHK0PiLdcRk5sWhoGEcbHr3eGlBKEhtTgmP0QNDgz2HSwi0A8wvXDKmwc0yrgWIExiYyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/transaction/extract/4389348f-7c0b-4010-9cf1-e7fe2d3a2358",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transaction",
+								"extract",
+								"4389348f-7c0b-4010-9cf1-e7fe2d3a2358"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Find Extract by Account Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/transaction/extract/d26158f3-2f58-427f-9a45-7ec4bac3249b",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"transaction",
+										"extract",
+										"d26158f3-2f58-427f-9a45-7ec4bac3249b"
+									]
+								}
+							},
+							"status": "Found",
+							"code": 302,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:09:19 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"extractId\": \"7f4c39d4-0e8b-4159-ae05-058eac02a8dc\",\n        \"transactionType\": \"DEPOSIT\",\n        \"extractType\": \"ENTRY\",\n        \"value\": 250,\n        \"transactionMadeOn\": \"2022-06-04T21:07:10.887673\"\n    },\n    {\n        \"extractId\": \"7555dd16-0bdc-4689-946c-b66bd26062db\",\n        \"transactionType\": \"TRANSFER\",\n        \"extractType\": \"EXIT\",\n        \"value\": 50,\n        \"transactionMadeOn\": \"2022-06-04T21:08:49.543677\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Find Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MGEzMDU0OC0wMzU0LTRhNDMtYmUwNS1jOThlYzU1YTUyNTksam9zb2VhbGd1c3RvZGFzaWx2YUBnbWFpbC5jb20uYnIiLCJpc3MiOiJDb2RlSmF2YSIsImlhdCI6MTY1NDQ0OTU4MCwiZXhwIjoxNjU0NTM1OTgwfQ.oqpjiHVkVf4l0dPscsHK0PiLdcRk5sWhoGEcbHr3eGlBKEhtTgmP0QNDgz2HSwi0A8wvXDKmwc0yrgWIExiYyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/transaction/14386b98-4e58-42a1-9999-62f86ed67826",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transaction",
+								"14386b98-4e58-42a1-9999-62f86ed67826"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Find Transaction Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/transaction/14386b98-4e58-42a1-9999-62f86ed67826",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"transaction",
+										"14386b98-4e58-42a1-9999-62f86ed67826"
+									]
+								}
+							},
+							"status": "Found",
+							"code": 302,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 17:54:52 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"transactionId\": \"14386b98-4e58-42a1-9999-62f86ed67826\",\n    \"type\": \"DEPOSIT\",\n    \"value\": 250,\n    \"sender\": {\n        \"accountId\": \"4389348f-7c0b-4010-9cf1-e7fe2d3a2358\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0001\",\n        \"balance\": null\n    },\n    \"receiver\": {\n        \"accountId\": \"4389348f-7c0b-4010-9cf1-e7fe2d3a2358\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0001\",\n        \"balance\": null\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Find Account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MGEzMDU0OC0wMzU0LTRhNDMtYmUwNS1jOThlYzU1YTUyNTksam9zb2VhbGd1c3RvZGFzaWx2YUBnbWFpbC5jb20uYnIiLCJpc3MiOiJDb2RlSmF2YSIsImlhdCI6MTY1NDQ0OTU4MCwiZXhwIjoxNjU0NTM1OTgwfQ.oqpjiHVkVf4l0dPscsHK0PiLdcRk5sWhoGEcbHr3eGlBKEhtTgmP0QNDgz2HSwi0A8wvXDKmwc0yrgWIExiYyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/user/000001/0002",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"000001",
+								"0002"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Find Account Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/user/000001/0002",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"000001",
+										"0002"
+									]
+								}
+							},
+							"status": "Found",
+							"code": 302,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:07:38 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"userId\": \"b549e561-8e5b-401d-a542-ccb8ffb2a91b\",\n    \"name\": \"Juliana Bernado Porcelinni\",\n    \"account\": {\n        \"accountId\": \"e79c3294-28fe-4064-bbd0-79b68b347cc1\",\n        \"agency\": \"000001\",\n        \"accountNumber\": \"0002\",\n        \"balance\": null\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Do Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"josoealgustodasilva@gmail.com.br\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Do Login Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"josoealgustodasilva@gmail.com.br\",\r\n    \"password\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Jun 2022 00:02:19 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"email\": \"josoealgustodasilva@gmail.com.br\",\n    \"accessToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTBjZTBjNy0xMmZkLTQ3NmQtYmEyZi00M2VkNWE0MmY4ZTUsam9zb2VhbGd1c3RvZGFzaWx2YUBnbWFpbC5jb20uYnIiLCJpc3MiOiJDb2RlSmF2YSIsImlhdCI6MTY1NDM4NzMzOSwiZXhwIjoxNjU0NDczNzM5fQ.UxT5AhmvM471nnI3055kR7dUujplE-moumGbK76mNZxtHb3QnGuQAnnbgwioEGS8VoRAjV_VToVPTk7yj_EIZg\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "userEmail",
+			"value": "josoealgustodasilva@gmail.com.br",
+			"type": "string"
+		},
+		{
+			"key": "userPassword",
+			"value": "123456",
+			"type": "string"
+		},
+		{
+			"key": "senderTransactionPassword",
+			"value": "123456",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "senderAccountId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "receiverAccountId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "receiverAccountNumber",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "receiverAgency",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
