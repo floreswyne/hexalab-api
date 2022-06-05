@@ -11,7 +11,7 @@ import com.hexalab.entity.AccountEntity;
 
 public class AccountInputDTO {
 
-	private UUID id;
+	private UUID accountId;
 
 	@NotBlank(message = "Agency cannot be blank!")
 	private String agency;
@@ -25,12 +25,12 @@ public class AccountInputDTO {
 	@NotBlank(message = "Transaction password cannot be blank!")
 	private String transactionPassword;
 
-	public UUID getId() {
-		return id;
+	public UUID getAccountId() {
+		return accountId;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setAccountId(UUID accountId) {
+		this.accountId = accountId;
 	}
 
 	public String getAgency() {

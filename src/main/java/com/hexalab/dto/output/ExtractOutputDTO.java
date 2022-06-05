@@ -10,7 +10,7 @@ import com.hexalab.enums.TransactionTypeEnum;
 
 public class ExtractOutputDTO {
 
-	private UUID id;
+	private UUID extractId;
 
 	private TransactionTypeEnum transactionType;
 
@@ -25,12 +25,12 @@ public class ExtractOutputDTO {
 		this.setExtractType(extractTypeEnum);
 	}
 
-	public UUID getId() {
-		return id;
+	public UUID getExtractId() {
+		return extractId;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setExtractId(UUID extractId) {
+		this.extractId = extractId;
 	}
 
 	public TransactionTypeEnum getTransactionType() {
@@ -66,7 +66,7 @@ public class ExtractOutputDTO {
 	}
 
 	private void convertEntityToDTO(TransactionEntity extract) {
-		setId(extract.getId());
+		setExtractId(extract.getId());
 		setTransactionType(extract.getType());
 		setValue(extract.getValue());
 		setTransactionMadeOn(extract.getCreatedAt());

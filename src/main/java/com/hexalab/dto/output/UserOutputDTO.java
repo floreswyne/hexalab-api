@@ -6,7 +6,7 @@ import com.hexalab.entity.UserEntity;
 
 public class UserOutputDTO {
 
-	private UUID id;
+	private UUID userId;
 
 	private String name;
 
@@ -20,12 +20,12 @@ public class UserOutputDTO {
 		convertEntityToDTO(user, canShowBalance);
 	}
 
-	public UUID getId() {
-		return id;
+	public UUID getUserId() {
+		return userId;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setUserId(UUID userId) {
+		this.userId = userId;
 	}
 
 	public String getName() {
@@ -45,13 +45,13 @@ public class UserOutputDTO {
 	}
 
 	private void convertEntityToDTO(UserEntity user) {
-		setId(user.getId());
+		setUserId(user.getId());
 		setName(user.getName());
 		setAccount(new AccountOutputDTO(user.getAccount()));
 	}
 
 	private void convertEntityToDTO(UserEntity user, boolean canShowBalance) {
-		setId(user.getId());
+		setUserId(user.getId());
 		setName(user.getName());
 		setAccount(new AccountOutputDTO(user.getAccount(), canShowBalance));
 	}

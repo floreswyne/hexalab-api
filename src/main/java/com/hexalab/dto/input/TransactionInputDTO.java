@@ -16,7 +16,7 @@ import com.hexalab.enums.TransactionTypeEnum;
 
 public class TransactionInputDTO {
 
-	private UUID id;
+	private UUID transactionId;
 
 	@DecimalMin(value = "0.0", inclusive = true, message = "Value cannot be less than 0!")
 	@Digits(integer = 6, fraction = 2, message = "Value cannot be blank!")
@@ -24,17 +24,17 @@ public class TransactionInputDTO {
 	private BigDecimal value;
 
 	@NotBlank(message = "Sender cannot be blank!")
-	private String senderId;
+	private String senderAccountId;
 
 	@NotBlank(message = "Receiver cannot be blank!")
-	private String receiverId;
+	private String receiverAccountId;
 
-	public UUID getId() {
-		return id;
+	public UUID getTransactionId() {
+		return transactionId;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setTransactionId(UUID transactionId) {
+		this.transactionId = transactionId;
 	}
 
 	public BigDecimal getValue() {
@@ -45,20 +45,20 @@ public class TransactionInputDTO {
 		this.value = value;
 	}
 
-	public String getSenderId() {
-		return senderId;
+	public String getSenderAccountId() {
+		return senderAccountId;
 	}
 
-	public void setSenderId(String senderId) {
-		this.senderId = senderId;
+	public void setSenderAccountId(String senderAccountId) {
+		this.senderAccountId = senderAccountId;
 	}
 
-	public String getReceiverId() {
-		return receiverId;
+	public String getReceiverAccountId() {
+		return receiverAccountId;
 	}
 
-	public void setReceiverId(String receiverId) {
-		this.receiverId = receiverId;
+	public void setReceiverAccountId(String receiverAccountId) {
+		this.receiverAccountId = receiverAccountId;
 	}
 
 	public TransactionEntity toEntity() {
@@ -66,11 +66,11 @@ public class TransactionInputDTO {
 		BeanUtils.copyProperties(this, transaction);
 
 		AccountEntity sender = new AccountEntity();
-		sender.setId(UUID.fromString(this.getSenderId()));
+		sender.setId(UUID.fromString(this.getSenderAccountId()));
 		transaction.setSender(sender);
 
 		AccountEntity receiver = new AccountEntity();
-		receiver.setId(UUID.fromString(this.getReceiverId()));
+		receiver.setId(UUID.fromString(this.getReceiverAccountId()));
 		transaction.setReceiver(receiver);
 
 		return transaction;

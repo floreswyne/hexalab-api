@@ -7,7 +7,7 @@ import com.hexalab.entity.AccountEntity;
 
 public class AccountOutputDTO {
 
-	private UUID id;
+	private UUID accountId;
 
 	private String agency;
 
@@ -26,12 +26,12 @@ public class AccountOutputDTO {
 		}
 	}
 
-	public UUID getId() {
-		return id;
+	public UUID getAccountId() {
+		return accountId;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setAccountId(UUID accountId) {
+		this.accountId = accountId;
 	}
 
 	public String getAgency() {
@@ -59,7 +59,7 @@ public class AccountOutputDTO {
 	}
 
 	private void convertEntityToDTO(AccountEntity account) {
-		setId(account.getId());
+		setAccountId(account.getId());
 		setAgency(account.getAgency());
 		setAccountNumber(account.getAccountNumber());
 		setBalance(account.getBalance());

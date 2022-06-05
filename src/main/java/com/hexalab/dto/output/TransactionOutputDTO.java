@@ -8,7 +8,7 @@ import com.hexalab.enums.TransactionTypeEnum;
 
 public class TransactionOutputDTO {
 
-	private UUID id;
+	private UUID transactionId;
 
 	private TransactionTypeEnum type;
 
@@ -26,12 +26,12 @@ public class TransactionOutputDTO {
 		convertEntityToDTO(transaction, canShowBalance);
 	}
 
-	public UUID getId() {
-		return id;
+	public UUID getTransactionId() {
+		return transactionId;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setTransactionId(UUID transactionId) {
+		this.transactionId = transactionId;
 	}
 
 	public TransactionTypeEnum getType() {
@@ -67,7 +67,7 @@ public class TransactionOutputDTO {
 	}
 
 	private void convertEntityToDTO(TransactionEntity transaction) {
-		setId(transaction.getId());
+		setTransactionId(transaction.getId());
 		setType(transaction.getType());
 		setValue(transaction.getValue());
 		setSender(new AccountOutputDTO(transaction.getSender()));
@@ -75,7 +75,7 @@ public class TransactionOutputDTO {
 	}
 
 	private void convertEntityToDTO(TransactionEntity transaction, boolean canShowBalance) {
-		setId(transaction.getId());
+		setTransactionId(transaction.getId());
 		setType(transaction.getType());
 		setValue(transaction.getValue());
 		setSender(new AccountOutputDTO(transaction.getSender(), canShowBalance));
