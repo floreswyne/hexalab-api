@@ -106,4 +106,16 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(error.getStatus()).body(error);
 	}
 
+	@ExceptionHandler
+	public ResponseEntity<StandartError> transactionPasswordIncorrect(TransactionPasswordIncorrect e,
+			HttpServletRequest request) {
+		StandartError error = new StandartError();
+		error.setTimestamp(LocalDateTime.now());
+		error.setStatus(HttpStatus.UNAUTHORIZED.value());
+		error.setError("Transaction password incorrect!");
+		error.setMessage(e.getMessage());
+		error.setPath(request.getRequestURI());
+		return ResponseEntity.status(error.getStatus()).body(error);
+	}
+
 }

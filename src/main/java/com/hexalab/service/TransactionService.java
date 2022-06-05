@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hexalab.controller.feign.TransactionAuthorizationServiceClient;
@@ -24,6 +25,7 @@ import com.hexalab.enums.TransactionTypeEnum;
 import com.hexalab.exceptions.AccountNotFoundException;
 import com.hexalab.exceptions.SenderAccountBalanceInsufficientException;
 import com.hexalab.exceptions.TransactionNotFoundException;
+import com.hexalab.exceptions.TransactionPasswordIncorrect;
 import com.hexalab.exceptions.TransferNotAuthorizedException;
 import com.hexalab.repository.AccountRepository;
 import com.hexalab.repository.TransactionRepository;
@@ -101,6 +103,8 @@ public class TransactionService {
 	}
 
 	private void prepareTransactionToSave(TransactionEntity transaction) {
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		
 		UUID senderId = transaction.getSender().getId();
 		AccountEntity sender = accountRepository.findById(senderId).orElseThrow(
 				() -> new AccountNotFoundException("Account with ID: " + senderId.toString() + " cannot be found!"));
@@ -110,6 +114,10 @@ public class TransactionService {
 				() -> new AccountNotFoundException("Account with ID: " + receiverId.toString() + " cannot be found!"));
 
 		if (transaction.getType().equals(TransactionTypeEnum.TRANSFER)) {
+			if (!bCryptPasswordEncoder.matches(transaction.getSender().getTransactionPassword(), sender.getTransactionPassword())) {
+				throw new TransactionPasswordIncorrect("Transfer password is incorrect!");
+			}
+			
 			authorizeTransfer();
 
 			BigDecimal differenceValueSender = sender.getBalance().subtract(transaction.getValue());
