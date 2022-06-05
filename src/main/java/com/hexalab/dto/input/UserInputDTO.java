@@ -97,11 +97,11 @@ public class UserInputDTO {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
 		UserEntity user = new UserEntity();
-		BeanUtils.copyProperties(this, user, "password");
+		BeanUtils.copyProperties(this, user);
 
 		user.setPassword(bCryptPasswordEncoder.encode(this.getPassword()));
 		user.setAccount(new AccountEntity());
-		user.getAccount().setTransactionPassword(this.getTransactionPassword());
+		user.getAccount().setTransactionPassword(bCryptPasswordEncoder.encode(this.getTransactionPassword()));
 
 		return user;
 	}
