@@ -45,6 +45,7 @@ public class SecurityConfig {
 		httpSecurity.authorizeRequests()
 					.antMatchers(HttpMethod.POST, "/api/user").permitAll()
 					.antMatchers(HttpMethod.POST, "/api/login").permitAll()
+					.antMatchers("/api/user/**").authenticated()
 					.anyRequest().authenticated();
 
 		httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
