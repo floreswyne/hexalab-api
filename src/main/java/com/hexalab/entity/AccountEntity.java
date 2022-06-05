@@ -41,7 +41,7 @@ public class AccountEntity implements Serializable {
 	@Column(nullable = false)
 	private BigDecimal balance;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 100)
 	private String transactionPassword;
 
 	@CreatedDate

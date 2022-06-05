@@ -23,6 +23,8 @@ public class TransactionInputDTO {
 	@Min(value = 3, message = "Value need to be more than 3!")
 	private BigDecimal value;
 
+	private String transactionPassword;
+
 	@NotBlank(message = "Sender cannot be blank!")
 	private String senderAccountId;
 
@@ -43,6 +45,14 @@ public class TransactionInputDTO {
 
 	public void setValue(BigDecimal value) {
 		this.value = value;
+	}
+
+	public String getTransactionPassword() {
+		return transactionPassword;
+	}
+
+	public void setTransactionPassword(String transactionPassword) {
+		this.transactionPassword = transactionPassword;
 	}
 
 	public String getSenderAccountId() {
@@ -67,6 +77,11 @@ public class TransactionInputDTO {
 
 		AccountEntity sender = new AccountEntity();
 		sender.setId(UUID.fromString(this.getSenderAccountId()));
+		
+		if (this.getTransactionPassword() != null) {
+			sender.setTransactionPassword(this.getTransactionPassword());
+		}
+		
 		transaction.setSender(sender);
 
 		AccountEntity receiver = new AccountEntity();
