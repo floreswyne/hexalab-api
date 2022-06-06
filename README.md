@@ -7,7 +7,7 @@ For building and running the application you need:
 - [JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 - [Maven 3.8.5](https://maven.apache.org/download.cgi)
 
-You will need a PostgreSQL database and you will also need to configure an `application-local.yml` to run locally.
+You will need an empty [PostgreSQL](https://www.postgresql.org/download/) database and you will also need to configure an `application-local.yml` to run locally.
 
 You will need to use these settings in the `application-local.yml`:
 
@@ -42,10 +42,9 @@ To run the application locally you can use the standard boot command:
 mvn spring-boot:run
 ```
 
-Or you can use the Boot Dashboard of the IDE Spring Tool Suite or Eclipse.
+Or you can use Boot Dashboard from Eclipse IDE or Spring Tool Suite.
 
 ## About documentation
-
 
 The application does not have written documentation, but it has a Postman collection import file that has all the application's endpoints and has a folder with a standard endpoint flow to test the application initially without too many problems.
 
