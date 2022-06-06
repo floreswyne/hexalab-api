@@ -53,3 +53,7 @@ The import file is at the root of the project and is called `Hexalab API.postman
 The standard flow uses collection variables to work without the need to change a lot of data such as the access token and some identifier codes, so you can just run requests through the interface of the standard flow folder.
 
 The other folders only separate requests into groups.
+
+## The basics to use the application
+
+To start the application it is worth mentioning the use of the Spring Security dependency to control most of the access to the endpoints with an access token, to start using the application we can use the "Save User" endpoint that allows the registration of a user without using a access token, and to have access to the token we can use the "Do Login" endpoint, from there it is necessary to add the token to the request header or use the Postman Authorization tab and choose the Bearer Token option in the Type field and insert it there.
